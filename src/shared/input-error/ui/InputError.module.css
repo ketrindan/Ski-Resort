@@ -1,0 +1,11 @@
+.span {
+  height: 12px;
+  visibility: hidden;
+  font-size: 10px;
+  line-height: 12px;
+  color: red;
+}
+
+.span_active {
+  visibility: visible;
+}

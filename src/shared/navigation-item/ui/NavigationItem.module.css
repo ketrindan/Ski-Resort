@@ -1,0 +1,9 @@
+.button {
+  padding: 0;
+}
+
+.text :global .MuiTypography-root {
+  font-size: 14px;
+  font-weight: 500;
+  color: #A5AAAD;
+}

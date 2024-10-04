@@ -1,0 +1,1 @@
+export type TChangePageCallback = (event: React.ChangeEvent<unknown>, value: number) => void;

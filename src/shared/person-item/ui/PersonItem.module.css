@@ -1,0 +1,9 @@
+.box {
+  display: flex;
+  width: 276px;
+  justify-content: space-between;
+}
+
+.icon {
+  color: #B9B9B9;
+}

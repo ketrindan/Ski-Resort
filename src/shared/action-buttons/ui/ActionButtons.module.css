@@ -1,0 +1,17 @@
+.icon {
+  padding: 4px;
+}
+
+.edit {
+  width: 19px;
+  height: 19px;
+  padding: 0;
+  color: #C8C8C8;
+}
+
+.delete {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  color: #C8C8C8;
+}

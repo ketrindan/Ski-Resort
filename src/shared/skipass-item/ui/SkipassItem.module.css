@@ -1,0 +1,52 @@
+.box {
+  width: 576px;
+  height: 120px;
+  display: flex;
+  align-items: flex-start;
+  background-image: url(./Rectangle\ 1255\ \(3\).svg);
+  background-size: cover;
+  color: #FFFFFF;
+  padding: 15px 20px 15px 39px;
+  box-sizing: border-box;
+}
+
+.box_day {
+  background-image: url(./Rectangle\ 1255.svg);
+}
+
+.box_noon {
+  background-image: url(./Rectangle\ 1255\ \(1\).svg);
+}
+
+.box_evening {
+  background-image: url(./Rectangle\ 1255\ \(2\).svg);
+}
+
+.info {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.duration {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  line-height: 20px;
+}
+
+.cost {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 20px;
+}
+
+.button {
+  margin-left: auto;
+  padding: 0;
+}
+
+.icon {
+  color: "#FFFFFF";
+}

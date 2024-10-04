@@ -1,0 +1,20 @@
+.button {
+  width: 169px;
+  height: 46px;
+  border-radius: 21px;
+  background-color: #4158F6;
+  text-transform: capitalize;
+  font-size: 12px;
+  font-weight: 500;
+  color: #FFFFFF;
+  margin-top: 38px;
+}
+
+.button:hover {
+  background-color: #4158F6;
+  opacity: 0.6;
+}
+
+:global .Mui-disabled {
+  background-color: #DADADA;
+}

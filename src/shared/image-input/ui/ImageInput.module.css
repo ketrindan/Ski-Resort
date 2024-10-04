@@ -1,0 +1,17 @@
+.avatar {
+  width: 173px;
+  height: 173px;
+  background-color: #F3F3F3;
+  margin-bottom: 34px;
+}
+
+.avatar_mod {
+  width: 100%;
+  height: 159px;
+}
+
+.icon {
+  color: #DADADA;
+  width: 61px;
+  height: 61px;
+}

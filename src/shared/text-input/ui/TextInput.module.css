@@ -1,0 +1,21 @@
+.input :global .MuiInputBase-root {
+  border-radius: 10px;
+  height: 44px;
+}
+
+.input :global .MuiFormLabel-root {
+  font-size: 10px;
+  color: #D3D3D3;
+}
+
+.input :global .MuiFormLabel-asterisk {
+  display: none;
+}
+
+.input :global .MuiInputBase-root.Mui-focused {
+  outline: 1px solid #4158F6;
+}
+
+.input :global .MuiInputBase-root.Mui-error {
+  outline: 1px solid red;
+}

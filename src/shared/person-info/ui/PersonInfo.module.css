@@ -1,0 +1,28 @@
+.box {
+  display: flex;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.info {
+  max-width: 195px;
+}
+
+.title {
+  font-size: 15px;
+  color: #000000DE;
+  line-height: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #0000008B;
+  line-height: 20px;
+}
