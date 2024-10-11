@@ -7,6 +7,7 @@ import PaginationItem from "@mui/material/PaginationItem";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { FC } from "react";
+import { useAppSelector } from "~app/store/hooks";
 import { TChangePageCallback } from "~shared/lib/types";
 import styles from "./ListContainer.module.css";
 
@@ -31,11 +32,13 @@ const ListContainer: FC<IContainerListProps> = ({
   totalPages,
   onPageChange,
 }) => {
+  const isAdminMode = useAppSelector((state) => state.user.isAdminMode);
+
   return (
     <Box className={styles.list_container}>
       <Box className={styles.list_header}>
         <Typography className={styles.title}> {title} </Typography>
-        {actionButton}
+        {isAdminMode && actionButton}
         {main && <ExpandLessIcon className={styles.less_icon} />}
         {!main && (
           <Stack className={styles.stack}>

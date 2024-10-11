@@ -10,6 +10,8 @@ import SvgIcon from "@mui/material/SvgIcon";
 import Switch from "@mui/material/Switch";
 import Typography from "@mui/material/Typography";
 import { FC } from "react";
+import { useAppDispatch, useAppSelector } from "~app/store/hooks";
+import { toggleAdminMode } from "~entities/user/userSlice";
 import { routes } from "~shared/lib/routes-names";
 import { NavItem } from "~shared/navigation-item";
 import styles from "./Navbar.module.css";
@@ -53,6 +55,10 @@ const navItems = [
 ];
 
 const Navbar: FC = () => {
+  const dispatch = useAppDispatch();
+  const isAdmin =
+    useAppSelector((state) => state.user.role) === "Администратор";
+
   return (
     <Drawer variant="permanent" className={styles.navbar}>
       <List disablePadding className={styles.list}>
@@ -66,13 +72,20 @@ const Navbar: FC = () => {
         ))}
       </List>
       <Box>
-        <FormGroup>
-          <FormControlLabel
-            label="Режим администратора"
-            className={styles.control}
-            control={<Switch defaultChecked className={styles.switch} />}
-          />
-        </FormGroup>
+        {isAdmin && (
+          <FormGroup>
+            <FormControlLabel
+              label="Режим администратора"
+              className={styles.control}
+              control={
+                <Switch
+                  className={styles.switch}
+                  onChange={() => dispatch(toggleAdminMode())}
+                />
+              }
+            />
+          </FormGroup>
+        )}
         {navItems.slice(-1).map((item) => (
           <NavItem
             key={item.name}

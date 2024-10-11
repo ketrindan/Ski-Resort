@@ -1,5 +1,5 @@
 # Ski-resort
-## 🛠️ ***В процессе разработки***
+🛠️ ***В процессе разработки***
 
 <!-- ![image](https://raw.githubusercontent.com/ketrindan/Stellar-Burgers/main/src/images/screen.png) -->
 
@@ -14,8 +14,8 @@
 ### **Технологии и библиотеки**
 * TypeScript
 * React
-* Redux
-* MUI V4
+* Redux-toolkit
+* MUI
 * Валидация yup
 * Моки MSW
 

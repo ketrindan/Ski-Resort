@@ -4,12 +4,14 @@ interface userState {
   isLoggedIn: boolean;
   login: string;
   role: string;
+  isAdminMode: boolean;
 }
 
 const initialState: userState = {
   isLoggedIn: false,
   login: "",
   role: "",
+  isAdminMode: false,
 };
 
 const userSlice = createSlice({
@@ -26,9 +28,12 @@ const userSlice = createSlice({
       state.login = "";
       state.role = "";
     },
+    toggleAdminMode: (state) => {
+      state.isAdminMode = !state.isAdminMode;
+    },
   },
 });
 
-export const { logIn, logOut } = userSlice.actions;
+export const { logIn, logOut, toggleAdminMode } = userSlice.actions;
 
 export default userSlice.reducer;
