@@ -36,7 +36,9 @@ const Header: FC = () => {
                 <ModeEditIcon className={styles.edit_icon} />
               </IconButton>
             </Box>
-            <Typography className={styles.name}>{userData.login}</Typography>
+            <Typography className={styles.name}>
+              {userData.userData.login}
+            </Typography>
             <Typography className={styles.role}> {userData.role} </Typography>
           </Box>
         </Box>

@@ -73,6 +73,7 @@
     "gh-pages": "^6.1.1",
     "husky": "^8.0.0",
     "lint-staged": "^15.1.0",
+    "msw": "^2.4.10",
     "prettier": "^3.1.0",
     "react-app-alias": "^2.2.2",
     "react-scripts": "^5.0.1",
@@ -85,5 +86,10 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "npm run lint"
   },
-  "homepage": "./"
+  "homepage": "./",
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
 }

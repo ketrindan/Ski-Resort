@@ -1,8 +1,6 @@
 import axios from "axios";
 
-const instance = axios.create({
-  baseURL: "http://192.168.236.16:9999",
+export const instance = axios.create({
+  baseURL: "https://ski-resort",
   headers: { "Content-Type": "application/json" },
 });
-
-export { instance as axios };

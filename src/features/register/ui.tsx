@@ -6,8 +6,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-// import { useAppDispatch } from "~app/store/hooks";
-// import { logIn } from "~entities/user/userSlice";
+import { useAppDispatch } from "~app/store/hooks";
+import { register } from "~entities/user/userSlice";
 import { FormBox } from "~shared/form-box";
 import { routes } from "~shared/lib/routes-names";
 import { ModalButton } from "~shared/modal-button";
@@ -37,7 +37,7 @@ const schema = yup
 export const Register: FC = () => {
   const navigate = useNavigate();
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const methods = useForm<TFormData>({
     mode: "onChange",
@@ -54,7 +54,13 @@ export const Register: FC = () => {
   const { handleSubmit, formState } = methods;
 
   function onSubmit(data: TFormData) {
-    // dispatch(logIn({ name: data.name, role }));
+    dispatch(
+      register({
+        login: data.name,
+        password: data.password,
+        isAdmin: data.isAdmin,
+      }),
+    );
     console.log(data);
     navigate(routes.login);
   }

@@ -11,6 +11,7 @@ interface popupState {
   isDeleteGuestPopupOpen: boolean;
   isDeleteCoachPopupOpen: boolean;
   isDeleteSkiPassPopupOpen: boolean;
+  isErrorPopupOpen: boolean;
 }
 
 const initialState: popupState = {
@@ -24,6 +25,7 @@ const initialState: popupState = {
   isDeleteGuestPopupOpen: false,
   isDeleteCoachPopupOpen: false,
   isDeleteSkiPassPopupOpen: false,
+  isErrorPopupOpen: false,
 };
 
 const popupSlice = createSlice({
@@ -90,6 +92,12 @@ const popupSlice = createSlice({
     closeDeleteSkipassPopup: (state) => {
       state.isDeleteSkiPassPopupOpen = false;
     },
+    openErrorPopup: (state) => {
+      state.isErrorPopupOpen = true;
+    },
+    closeErrorPopup: (state) => {
+      state.isErrorPopupOpen = false;
+    },
   },
 });
 
@@ -114,6 +122,8 @@ export const {
   closeDeleteCoachPopup,
   openDeleteSkiPassPopup,
   closeDeleteSkipassPopup,
+  openErrorPopup,
+  closeErrorPopup,
 } = popupSlice.actions;
 
 export default popupSlice.reducer;

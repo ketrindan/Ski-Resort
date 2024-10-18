@@ -1,39 +1,113 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { axios } from "~shared/api/interceptors";
+import { Status } from "~shared/lib/status";
+
+export type TUser = {
+  id?: number;
+  login: string;
+  isAdmin: boolean;
+};
+
+export type TRegisterData = TUser & {
+  password: string;
+};
+
+export type TAuthData = Omit<TRegisterData, "isAdmin" | "id">;
+
+type TResponse = {
+  content: TUser;
+  token: string;
+};
 
 interface userState {
   isLoggedIn: boolean;
-  login: string;
+  userData: TUser;
   role: string;
   isAdminMode: boolean;
+  status: Status;
+  error?: string | null;
 }
 
 const initialState: userState = {
   isLoggedIn: false,
-  login: "",
+  userData: { login: "", isAdmin: false },
   role: "",
   isAdminMode: false,
+  status: Status.idle,
+  error: null,
 };
+
+export const register = createAsyncThunk(
+  "user/register",
+  async (data: TRegisterData) => {
+    const res = await axios.post<TUser>("/register", data);
+    return res;
+  },
+);
+
+export const login = createAsyncThunk("user/login", async (data: TAuthData) => {
+  const res = await axios.post<TResponse>("/login", data);
+  return res.data;
+});
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logIn: (state, action) => {
-      state.isLoggedIn = true;
-      state.login = action.payload.name;
-      state.role = action.payload.role;
-    },
     logOut: (state) => {
       state.isLoggedIn = false;
-      state.login = "";
+      state.userData.login = "";
+      state.userData.isAdmin = false;
       state.role = "";
+      state.isAdminMode = false;
+      localStorage.removeItem("token");
     },
     toggleAdminMode: (state) => {
       state.isAdminMode = !state.isAdminMode;
     },
   },
+  extraReducers(builder) {
+    builder
+      .addCase(register.pending, (state) => {
+        state.status = Status.loading;
+        state.error = "";
+      })
+      .addCase(register.fulfilled, (state) => {
+        state.status = Status.succeeded;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.status = Status.failed;
+        state.error = action.error.message;
+      })
+      .addCase(login.pending, (state) => {
+        state.status = Status.loading;
+        state.error = "";
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.status = Status.succeeded;
+        state.isLoggedIn = true;
+        state.userData.login = action.payload.content.login;
+        state.role = action.payload.content.isAdmin ? "Администратор" : "Гость";
+        const accessToken = action.payload.token.split("Bearer ")[1];
+        localStorage.setItem("token", accessToken);
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.status = Status.failed;
+        const errorCode = action.error.message?.slice(-3);
+        switch (errorCode) {
+          case "400":
+            state.error = "Неверный пароль";
+            break;
+          case "404":
+            state.error = "Пользователь не найден";
+            break;
+          default:
+            state.error = "Произошла ошибка";
+        }
+      });
+  },
 });
 
-export const { logIn, logOut, toggleAdminMode } = userSlice.actions;
+export const { logOut, toggleAdminMode } = userSlice.actions;
 
 export default userSlice.reducer;

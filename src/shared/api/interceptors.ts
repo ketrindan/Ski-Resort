@@ -1,6 +1,6 @@
-import { axios } from "./instance";
+import { instance } from "./instance";
 
-axios.interceptors.request.use(
+instance.interceptors.request.use(
   (config) => {
     config.headers["Authorization"] = `Bearer ` + "token";
     return config;
@@ -10,4 +10,4 @@ axios.interceptors.request.use(
   },
 );
 
-export { axios };
+export { instance as axios };

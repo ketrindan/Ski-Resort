@@ -19,7 +19,7 @@ import { PageLayout } from "~shared/page-layout";
 import { PersonItem } from "~shared/person-item";
 import { SkipassItem } from "~shared/skipass-item";
 import { StatusWrapper } from "~shared/status-wrapper";
-import { skipasses } from "./mocks";
+import { skipasses } from "../../../shared/mocks/mocks";
 
 const guestMenuItems: CardMenuItem[] = [
   {
