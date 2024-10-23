@@ -10,7 +10,7 @@ import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import { openAdminPopup } from "~features/popup/popupSlice";
 import { logOut } from "~entities/user/userSlice";
-import { Search } from "~shared/search";
+// import { Search } from "~shared/search";
 
 import avatar from "./avatar.jpg";
 import styles from "./Header.module.css";
@@ -42,7 +42,7 @@ const Header: FC = () => {
             <Typography className={styles.role}> {userData.role} </Typography>
           </Box>
         </Box>
-        <Search />
+        {/* <Search /> */}
         <IconButton className={styles.logout}>
           <LogoutIcon />
           <Typography onClick={() => dispatch(logOut())}> Выход </Typography>

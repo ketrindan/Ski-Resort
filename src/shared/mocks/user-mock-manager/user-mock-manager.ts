@@ -1,5 +1,6 @@
 import { HttpResponse } from "msw";
-import { TAuthData } from "~entities/user/userSlice";
+import { v4 as uuidv4 } from "uuid";
+import { TAuthData, TRegisterData } from "~entities/user/userSlice";
 import { usersList } from "./user-mock";
 
 export class UserMockManager {
@@ -7,6 +8,21 @@ export class UserMockManager {
 
   constructor() {
     this.registeredUsers = usersList;
+  }
+
+  register(data: TRegisterData) {
+    if (usersList.some((user) => user.login === data.login)) {
+      throw new HttpResponse(null, { status: 403 });
+    } else {
+      const newUser = {
+        ...data,
+        id: uuidv4(),
+      };
+
+      usersList.push(newUser);
+
+      return newUser;
+    }
   }
 
   logIn(data: TAuthData) {

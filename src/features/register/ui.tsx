@@ -5,9 +5,8 @@ import { FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import * as yup from "yup";
-import { useAppDispatch } from "~app/store/hooks";
+import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import { register } from "~entities/user/userSlice";
 import { FormBox } from "~shared/form-box";
 import { routes } from "~shared/lib/routes-names";
@@ -40,6 +39,8 @@ export const Register: FC = () => {
 
   const dispatch = useAppDispatch();
 
+  const user = useAppSelector((state) => state.user);
+
   const methods = useForm<TFormData>({
     mode: "onChange",
     reValidateMode: "onChange",
@@ -54,18 +55,20 @@ export const Register: FC = () => {
 
   const { handleSubmit, formState } = methods;
 
-  function onSubmit(data: TFormData) {
-    dispatch(
-      register({
-        id: uuidv4(),
-        login: data.name,
-        password: data.password,
-        isAdmin: data.isAdmin,
-      }),
-    );
-    console.log(data);
-    navigate(routes.login);
-  }
+  const onSubmit = async (data: TFormData) => {
+    try {
+      await dispatch(
+        register({
+          login: data.name,
+          password: data.password,
+          isAdmin: data.isAdmin,
+        }),
+      );
+      !user.error && navigate(routes.login);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <FormProvider {...methods}>

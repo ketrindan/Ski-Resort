@@ -3,25 +3,28 @@ import { axios } from "~shared/api/interceptors";
 import { Status } from "~shared/lib/status";
 
 export type TUser = {
-  id: string;
   login: string;
   isAdmin: boolean;
+};
+
+export type TUserData = TUser & {
+  id: string;
 };
 
 export type TRegisterData = TUser & {
   password: string;
 };
 
-export type TAuthData = Omit<TRegisterData, "isAdmin" | "id">;
+export type TAuthData = Omit<TRegisterData, "isAdmin">;
 
 type TResponse = {
-  content: TUser;
+  content: TUserData;
   token: string;
 };
 
 interface userState {
   isLoggedIn: boolean;
-  userData: TUser;
+  userData: TUser & { id: string };
   role: string;
   isAdminMode: boolean;
   status: Status;
@@ -41,7 +44,7 @@ export const register = createAsyncThunk(
   "user/register",
   async (data: TRegisterData) => {
     const res = await axios.post<TUser>("/register", data);
-    return res;
+    return res.data;
   },
 );
 
@@ -95,7 +98,14 @@ const userSlice = createSlice({
       })
       .addCase(register.rejected, (state, action) => {
         state.status = Status.failed;
-        state.error = action.error.message;
+        const errorCode = action.error.message?.slice(-3);
+        switch (errorCode) {
+          case "403":
+            state.error = `Пользователь с таким логином уже существует`;
+            break;
+          default:
+            state.error = "Произошла ошибка";
+        }
       })
       .addCase(login.pending, (state) => {
         state.status = Status.loading;
