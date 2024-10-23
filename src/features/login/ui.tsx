@@ -17,8 +17,12 @@ export type TFormData = {
 
 const schema = yup
   .object({
-    login: yup.string().min(2).required(),
-    password: yup.string().min(6).max(10).required(),
+    login: yup.string().min(2, "Минимальная длина логина 2 символа").required(),
+    password: yup
+      .string()
+      .min(6, "Минимальная длина пароля 6 символов")
+      .max(10, "Максимальная длина пароля 10 символов")
+      .required(),
   })
   .required();
 

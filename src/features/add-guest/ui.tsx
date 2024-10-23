@@ -33,8 +33,8 @@ export type TFormData = {
 
 const schema = yup
   .object({
-    name: yup.string().min(2).required(),
-    surname: yup.string().min(2).required(),
+    name: yup.string().min(2, "Минимальная длина 2 символа").required(),
+    surname: yup.string().min(2, "Минимальная длина 2 символа").required(),
     birthDate: yup.string().required(),
     skipass: yup.number().positive(),
     coachId: yup.number().positive(),
