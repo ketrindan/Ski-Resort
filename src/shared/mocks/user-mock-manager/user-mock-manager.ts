@@ -31,6 +31,19 @@ export class UserMockManager {
       });
     }
   }
+
+  editUser(id: string, login: TAuthData["login"]) {
+    const user = usersList.find((user) => user.id === id);
+    if (user) {
+      user.login = login;
+    }
+
+    return user?.login;
+  }
+
+  // getPassword(id: string) {
+  //   return usersList.find((user) => user.id === id)?.password;
+  // }
 }
 
 export const defaultUserMockManager = new UserMockManager();

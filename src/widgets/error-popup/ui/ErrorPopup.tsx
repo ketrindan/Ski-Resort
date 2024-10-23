@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { FC, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import { closeErrorPopup, openErrorPopup } from "~features/popup/popupSlice";
@@ -22,7 +23,6 @@ const ErrorPopup: FC = () => {
 
   if (userError && userError !== prevError) {
     dispatch(openErrorPopup());
-    console.log("qe");
   }
 
   return (
@@ -31,10 +31,9 @@ const ErrorPopup: FC = () => {
       open={errorPopupOpen}
       handleClose={() => {
         dispatch(closeErrorPopup());
-        console.log("df");
       }}
     >
-      {userError}
+      <Typography color="error">{userError}</Typography>
     </ModalComponent>
   );
 };

@@ -12,8 +12,8 @@ import { openAdminPopup } from "~features/popup/popupSlice";
 import { logOut } from "~entities/user/userSlice";
 import { Search } from "~shared/search";
 
+import avatar from "./avatar.jpg";
 import styles from "./Header.module.css";
-import { admin } from "./temp.admin.mock";
 
 const Header: FC = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +28,7 @@ const Header: FC = () => {
           </IconButton>
           <Box className={styles.userInfo}>
             <Box className={styles.avatar}>
-              <Avatar src={admin.avatar} alt="avatar" className={styles.img} />
+              <Avatar src={avatar} alt="avatar" className={styles.img} />
               <IconButton
                 className={styles.edit}
                 onClick={() => dispatch(openAdminPopup())}

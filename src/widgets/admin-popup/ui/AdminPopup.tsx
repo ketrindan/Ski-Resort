@@ -9,11 +9,13 @@ const AdminPopup: FC = () => {
     (state) => state.popups.isAdminPopupOpen,
   );
 
+  const isAdmin = useAppSelector((state) => state.user.userData.isAdmin);
+
   const dispatch = useAppDispatch();
 
   return (
     <ModalComponent
-      title="Личный кабинет администратора"
+      title={isAdmin ? "Личный кабинет администратора" : "Личный кабинет"}
       open={adminPopupOpen}
       handleClose={() => dispatch(closeAdminPopup())}
     >

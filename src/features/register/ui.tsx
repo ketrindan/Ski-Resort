@@ -5,6 +5,7 @@ import { FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import * as yup from "yup";
 import { useAppDispatch } from "~app/store/hooks";
 import { register } from "~entities/user/userSlice";
@@ -56,6 +57,7 @@ export const Register: FC = () => {
   function onSubmit(data: TFormData) {
     dispatch(
       register({
+        id: uuidv4(),
         login: data.name,
         password: data.password,
         isAdmin: data.isAdmin,

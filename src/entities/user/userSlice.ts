@@ -3,7 +3,7 @@ import { axios } from "~shared/api/interceptors";
 import { Status } from "~shared/lib/status";
 
 export type TUser = {
-  id?: number;
+  id: string;
   login: string;
   isAdmin: boolean;
 };
@@ -30,7 +30,7 @@ interface userState {
 
 const initialState: userState = {
   isLoggedIn: false,
-  userData: { login: "", isAdmin: false },
+  userData: { id: "", login: "", isAdmin: false },
   role: "",
   isAdminMode: false,
   status: Status.idle,
@@ -50,6 +50,23 @@ export const login = createAsyncThunk("user/login", async (data: TAuthData) => {
   return res.data;
 });
 
+export const editUser = createAsyncThunk(
+  "user/edit",
+  async (data: { id: string; login: string }) => {
+    const res = await axios.patch<TUser["login"]>("/edit", data);
+    console.log(res.data);
+    return res.data;
+  },
+);
+
+// export const getPassword = createAsyncThunk(
+//   "user/password",
+//   async (id: string) => {
+//     const res = await axios.get<string>(`/password/${id}`);
+//     return res.data;
+//   },
+// );
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -58,6 +75,7 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
       state.userData.login = "";
       state.userData.isAdmin = false;
+      state.userData.id = "";
       state.role = "";
       state.isAdminMode = false;
       localStorage.removeItem("token");
@@ -87,6 +105,7 @@ const userSlice = createSlice({
         state.status = Status.succeeded;
         state.isLoggedIn = true;
         state.userData.login = action.payload.content.login;
+        state.userData.id = action.payload.content.id;
         state.role = action.payload.content.isAdmin ? "Администратор" : "Гость";
         const accessToken = action.payload.token.split("Bearer ")[1];
         localStorage.setItem("token", accessToken);
@@ -104,6 +123,10 @@ const userSlice = createSlice({
           default:
             state.error = "Произошла ошибка";
         }
+      })
+      .addCase(editUser.fulfilled, (state, action) => {
+        state.status = Status.succeeded;
+        state.userData.login = action.payload;
       });
   },
 });

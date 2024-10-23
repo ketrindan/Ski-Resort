@@ -1,40 +1,39 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import MenuItem from "@mui/material/MenuItem";
 import { FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
-import { useAppDispatch } from "~app/store/hooks";
+import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import { closeAdminPopup } from "~features/popup/popupSlice";
+import { editUser } from "~entities/user/userSlice";
+// import { getPassword } from "~entities/user/userSlice";
 import { AvatarItem } from "~shared/avatar-item";
 import { FormBox } from "~shared/form-box";
 import { ModalButton } from "~shared/modal-button";
-import { SelectInput } from "~shared/select-input";
 import { TextInput } from "~shared/text-input";
 
 export type TFormData = {
-  name: string;
-  surname: string;
-  role: string;
+  login: string;
+  // password: string;
 };
 
 const schema = yup
   .object({
-    name: yup.string().min(2).required(),
-    surname: yup.string().min(2).required(),
-    role: yup.string().required(),
+    login: yup.string().min(2).required(),
+    // password: yup.string().min(2).required(),
   })
   .required();
 
 export const EditAdmin: FC = () => {
+  const user = useAppSelector((state) => state.user.userData);
+
   const dispatch = useAppDispatch();
 
   const methods = useForm<TFormData>({
     mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
-      name: "",
-      surname: "",
-      role: "ADMIN",
+      login: user.login,
+      // password: password,
     },
     resolver: yupResolver(schema),
   });
@@ -42,6 +41,7 @@ export const EditAdmin: FC = () => {
   const { handleSubmit, formState } = methods;
 
   function onSubmit(data: TFormData) {
+    dispatch(editUser({ id: user.id, login: data.login }));
     dispatch(closeAdminPopup());
     console.log(data);
   }
@@ -50,15 +50,12 @@ export const EditAdmin: FC = () => {
     <FormProvider {...methods}>
       <FormBox onSubmit={handleSubmit(onSubmit)}>
         <AvatarItem />
-        <TextInput name="name" label="Имя" />
-        <TextInput name="surname" label="Фамилия" />
-        <SelectInput
-          name="role"
-          defaultValue="ADMIN"
-          empty={true}
-          options={<MenuItem value="ADMIN">Aдминистратор</MenuItem>}
+        <TextInput name="login" label="Имя" />
+        {/* <TextInput name="password" label="Пароль" /> */}
+        <ModalButton
+          btnText="Ок"
+          disabled={!formState.isValid || !formState.isDirty}
         />
-        <ModalButton btnText="Ок" disabled={!formState.isValid} />
       </FormBox>
     </FormProvider>
   );

@@ -2,7 +2,7 @@ import { instance } from "./instance";
 
 instance.interceptors.request.use(
   (config) => {
-    config.headers["Authorization"] = `Bearer ` + "token";
+    config.headers["Authorization"] = `Bearer ` + localStorage.getItem("token");
     return config;
   },
   (error) => {
