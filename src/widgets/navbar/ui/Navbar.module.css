@@ -25,6 +25,19 @@
   margin-bottom: 60px;
 }
 
+.link {
+  color: #C2C9CE;
+  font-size: 12px;
+  text-decoration: none;
+  display: flex;
+  gap: 20px;
+  padding-left: 2px;
+}
+
+.link_active {
+  background-color:#4158F6;;
+}
+
 .control {
   gap: 10px;
   margin: 0 0 52px 0;
@@ -54,7 +67,7 @@
 }
 
 .switch :global .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
-  background-color: #95C763;
+  background-color: #4158F6;
   opacity: 1;
   border: 0;
 }

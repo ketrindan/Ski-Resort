@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { FC } from "react";
+import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import { openAdminPopup } from "~features/popup/popupSlice";
 import { logOut } from "~entities/user/userSlice";
@@ -23,9 +24,9 @@ const Header: FC = () => {
     <AppBar className={styles.header}>
       <Toolbar className={styles.container}>
         <Box className={styles.infoBox}>
-          <IconButton href="/" className={styles.burger_box}>
+          <NavLink end to="/" className={styles.burger_box}>
             <Typography className={styles.title}>Горнолыжный курорт</Typography>
-          </IconButton>
+          </NavLink>
           <Box className={styles.userInfo}>
             <Box className={styles.avatar}>
               <Avatar src={avatar} alt="avatar" className={styles.img} />

@@ -1,12 +1,12 @@
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { FC } from "react";
+import { NavLink } from "react-router-dom";
 import { useAppSelector } from "~app/store/hooks";
 import { TChangePageCallback } from "~shared/lib/types";
 import styles from "./ListContainer.module.css";
@@ -60,16 +60,11 @@ const ListContainer: FC<IContainerListProps> = ({
         )}
       </Box>
       <Box className={styles.box}> {children} </Box>
-      {main && (
-        <Link
-          href={link}
-          variant="body2"
-          underline="none"
-          className={styles.link}
-        >
+      {main && link && (
+        <NavLink to={link} className={styles.link}>
           Все
           <ArrowForwardIcon className={styles.arrow_icon} />
-        </Link>
+        </NavLink>
       )}
     </Box>
   );

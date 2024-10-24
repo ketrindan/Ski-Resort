@@ -14,7 +14,7 @@ export type TGuest = Person & {
   visitDate: string;
 };
 
-type TResponse = {
+export type TResponse = {
   content: TGuest[];
   totalPages: number;
 };

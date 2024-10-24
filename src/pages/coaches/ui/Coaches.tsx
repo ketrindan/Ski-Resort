@@ -6,27 +6,12 @@ import { openAddCoachPopup } from "~features/popup/popupSlice";
 import { fetchCoaches } from "~entities/coach/coachSlice";
 import { AddButton } from "~shared/add-button";
 import { ContainerLayout } from "~shared/container-layout";
+import { coachMenuItems } from "~shared/lib/menu-items";
 import { Status } from "~shared/lib/status";
 import { TChangePageCallback } from "~shared/lib/types";
-import { CardMenuItem } from "~shared/menu/api";
 import { PageLayout } from "~shared/page-layout";
 import { PersonItem } from "~shared/person-item";
 import { StatusWrapper } from "~shared/status-wrapper";
-
-const coachMenuItems: CardMenuItem[] = [
-  {
-    id: "0",
-    text: "Назначить посетителя",
-  },
-  {
-    id: "1",
-    text: "Редактировать",
-  },
-  {
-    id: "2",
-    text: "Удалить",
-  },
-];
 
 const itemsNumber: number = 26;
 

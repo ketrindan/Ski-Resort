@@ -3,15 +3,17 @@ import { v4 as uuidv4 } from "uuid";
 import { TAuthData, TRegisterData } from "~entities/user/userSlice";
 import { usersList } from "./user-mock";
 
+type TUserData = TRegisterData & { id: string };
+
 export class UserMockManager {
-  registeredUsers = usersList;
+  private _registeredUsers: TUserData[];
 
   constructor() {
-    this.registeredUsers = usersList;
+    this._registeredUsers = usersList;
   }
 
   register(data: TRegisterData) {
-    if (usersList.some((user) => user.login === data.login)) {
+    if (this._registeredUsers.some((user) => user.login === data.login)) {
       throw new HttpResponse(null, { status: 403 });
     } else {
       const newUser = {
@@ -19,15 +21,17 @@ export class UserMockManager {
         id: uuidv4(),
       };
 
-      usersList.push(newUser);
+      this._registeredUsers.push(newUser);
 
       return newUser;
     }
   }
 
   logIn(data: TAuthData) {
-    if (usersList.some((user) => user.login === data.login)) {
-      const user = usersList.find((user) => user.login === data.login);
+    if (this._registeredUsers.some((user) => user.login === data.login)) {
+      const user = this._registeredUsers.find(
+        (user) => user.login === data.login,
+      );
       if (user && user.password === data.password) {
         const res = {
           content: {
@@ -49,7 +53,7 @@ export class UserMockManager {
   }
 
   editUser(id: string, login: TAuthData["login"]) {
-    const user = usersList.find((user) => user.id === id);
+    const user = this._registeredUsers.find((user) => user.id === id);
     if (user) {
       user.login = login;
     }
@@ -58,7 +62,7 @@ export class UserMockManager {
   }
 
   // getPassword(id: string) {
-  //   return usersList.find((user) => user.id === id)?.password;
+  //   return this._registeredUsers.find((user) => user.id === id)?.password;
   // }
 }
 

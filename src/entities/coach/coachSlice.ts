@@ -4,7 +4,7 @@ import { Person } from "~entities/person";
 import { axios } from "~shared/api/interceptors";
 import { Status } from "~shared/lib/status";
 
-type TCoach = Person & {
+export type TCoach = Person & {
   sex?: string | null;
   skiPassId?: number | null;
   skiPassCost?: number | null;
@@ -14,7 +14,7 @@ type TCoach = Person & {
   guests?: TGuest[] | null;
 };
 
-type TResponse = {
+export type TResponse = {
   content: TCoach[];
   totalPages: number;
 };

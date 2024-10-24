@@ -7,27 +7,12 @@ import { fetchGuests } from "~entities/guest/guestSlice";
 import { AddButton } from "~shared/add-button";
 import { ContainerLayout } from "~shared/container-layout";
 import { convertAge } from "~shared/lib/convertAge";
+import { guestMenuItems } from "~shared/lib/menu-items";
 import { Status } from "~shared/lib/status";
 import { TChangePageCallback } from "~shared/lib/types";
-import { CardMenuItem } from "~shared/menu/api";
 import { PageLayout } from "~shared/page-layout";
 import { PersonItem } from "~shared/person-item";
 import { StatusWrapper } from "~shared/status-wrapper";
-
-const guestMenuItems: CardMenuItem[] = [
-  {
-    id: "0",
-    text: "Назначить тренера",
-  },
-  {
-    id: "1",
-    text: "Редактировать",
-  },
-  {
-    id: "2",
-    text: "Удалить",
-  },
-];
 
 const itemsNumber: number = 26;
 
@@ -79,7 +64,9 @@ const GuestsPage = () => {
                 key={guest.id}
                 title={`${guest.name} ${guest.surname}`}
                 subtitle={convertAge(guest.birthDate)}
-                menuItems={guestMenuItems}
+                menuItems={
+                  guest.coachId ? guestMenuItems.slice(1) : guestMenuItems
+                }
               />
             ))}
           </StatusWrapper>

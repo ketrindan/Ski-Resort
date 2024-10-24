@@ -1,6 +1,6 @@
 import People from "@mui/icons-material/People";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+// import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -10,10 +10,10 @@ import SvgIcon from "@mui/material/SvgIcon";
 import Switch from "@mui/material/Switch";
 import Typography from "@mui/material/Typography";
 import { FC } from "react";
+import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import { toggleAdminMode } from "~entities/user/userSlice";
 import { routes } from "~shared/lib/routes-names";
-import { NavItem } from "~shared/navigation-item";
 import styles from "./Navbar.module.css";
 
 const navItems = [
@@ -47,11 +47,11 @@ const navItems = [
     ),
     name: "Ски-пассы",
   },
-  {
-    link: "#",
-    icon: <SettingsOutlinedIcon className={styles.icon} />,
-    name: "Настройки",
-  },
+  // {
+  //   link: "#",
+  //   icon: <SettingsOutlinedIcon className={styles.icon} />,
+  //   name: "Настройки",
+  // },
 ];
 
 const Navbar: FC = () => {
@@ -62,13 +62,19 @@ const Navbar: FC = () => {
   return (
     <Drawer variant="permanent" className={styles.navbar}>
       <List disablePadding className={styles.list}>
-        {navItems.slice(0, -1).map((item) => (
-          <NavItem
+        {navItems.map((item) => (
+          <NavLink
             key={item.name}
-            link={item.link}
-            icon={item.icon}
-            name={item.name}
-          />
+            to={item.link}
+            className={({ isActive }) =>
+              isActive
+                ? `${styles.link} ${styles.link_active}`
+                : `${styles.link}`
+            }
+          >
+            {item.icon}
+            <Typography>{item.name}</Typography>
+          </NavLink>
         ))}
       </List>
       <Box>
@@ -86,14 +92,14 @@ const Navbar: FC = () => {
             />
           </FormGroup>
         )}
-        {navItems.slice(-1).map((item) => (
+        {/* {navItems.slice(-1).map((item) => (
           <NavItem
             key={item.name}
             link={item.link}
             icon={item.icon}
             name={item.name}
           />
-        ))}
+        ))} */}
       </Box>
       <Typography component="span" className={styles.span}>
         Все права защищены
