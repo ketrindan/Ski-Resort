@@ -59,6 +59,8 @@ const Navbar: FC = () => {
   const isAdmin =
     useAppSelector((state) => state.user.role) === "Администратор";
 
+  const adminMode = useAppSelector((state) => state.user.isAdminMode);
+
   return (
     <Drawer variant="permanent" className={styles.navbar}>
       <List disablePadding className={styles.list}>
@@ -87,6 +89,7 @@ const Navbar: FC = () => {
                 <Switch
                   className={styles.switch}
                   onChange={() => dispatch(toggleAdminMode())}
+                  checked={adminMode}
                 />
               }
             />
