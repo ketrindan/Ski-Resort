@@ -1,6 +1,6 @@
 export type Person = {
   birthDate: string;
-  id?: number;
+  id?: string;
   name: string;
   surname: string;
 };

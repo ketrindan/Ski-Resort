@@ -27,8 +27,8 @@ export type TFormData = {
   name: string;
   surname: string;
   birthDate: string;
-  skipass?: number;
-  coachId?: number;
+  skipass: string;
+  coachId: string;
 };
 
 const schema = yup
@@ -36,8 +36,8 @@ const schema = yup
     name: yup.string().min(2, "Минимальная длина 2 символа").required(),
     surname: yup.string().min(2, "Минимальная длина 2 символа").required(),
     birthDate: yup.string().required(),
-    skipass: yup.number().positive(),
-    coachId: yup.number().positive(),
+    skipass: yup.string().required(),
+    coachId: yup.string().required(),
   })
   .required();
 
@@ -111,13 +111,13 @@ export const AddGuest: FC = () => {
       })
       .then((res) => {
         if (res) {
-          const id = Number(res.data.split(" ").pop());
+          const id = res.data.split(" ").pop();
           return dispatch(getGuest(id)).unwrap();
         }
       })
       .then((guest) => {
         dispatch(closeAddGuestPopup());
-        dispatch(setChosenGuest(guest));
+        guest && dispatch(setChosenGuest(guest));
       })
       .then(() => {
         dispatch(openConfirmGuestPopup());

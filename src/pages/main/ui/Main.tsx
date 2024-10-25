@@ -8,8 +8,8 @@ import {
   openAddCoachPopup,
   openAddSkiPassPopup,
 } from "~features/popup/popupSlice";
-import { fetchCoaches } from "~entities/coach/coachSlice";
-import { fetchGuests } from "~entities/guest/guestSlice";
+import { fetchCoaches, setChosenCoach } from "~entities/coach/coachSlice";
+import { fetchGuests, setChosenGuest } from "~entities/guest/guestSlice";
 import { AddButton } from "~shared/add-button";
 import { ContainerLayout } from "~shared/container-layout";
 import { convertAge } from "~shared/lib/convertAge";
@@ -63,6 +63,7 @@ const MainPage = () => {
                 menuItems={
                   guest.coachId ? guestMenuItems.slice(1) : guestMenuItems
                 }
+                getData={dispatch(setChosenGuest(guest))}
               />
             ))}
           </StatusWrapper>
@@ -86,6 +87,7 @@ const MainPage = () => {
                 subtitle={coach.category}
                 img={coach.photo}
                 menuItems={coachMenuItems}
+                getData={dispatch(setChosenCoach(coach))}
               />
             ))}
           </StatusWrapper>

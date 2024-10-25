@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { Person } from "~entities/person";
 import { axios } from "~shared/api/interceptors";
 import { Status } from "~shared/lib/status";
 
 export type TGuest = Person & {
-  skiPassId?: number | null;
-  coachId?: number | null;
+  skiPassId?: string | null;
+  coachId?: string | null;
   coachNameSurname?: string | null;
   coachCategory?: string | null;
   coachSex?: string | null;
@@ -53,7 +53,7 @@ export const addNewGuest = createAsyncThunk(
 
 export const getGuest = createAsyncThunk(
   "guests/getGuest",
-  async (id: number) => {
+  async (id: string) => {
     const res = await axios.get<TGuest>(`/guest/${id}`);
     return res.data;
   },
@@ -61,7 +61,7 @@ export const getGuest = createAsyncThunk(
 
 export const deleteGuest = createAsyncThunk(
   "guests/deleteGuest",
-  async (id: number) => {
+  async (id: string) => {
     const res = await axios.delete(`/guest/${id}`);
     return res;
   },
@@ -73,8 +73,8 @@ export const addCoachToGuest = createAsyncThunk(
     guestId,
     coachId,
   }: {
-    guestId: number | unknown;
-    coachId: number;
+    guestId: string | unknown;
+    coachId: string;
   }) => {
     const res = await axios.put(`/guest/${guestId}/coach/${coachId}`);
     return res;
@@ -85,7 +85,7 @@ const guestSlice = createSlice({
   name: "guest",
   initialState,
   reducers: {
-    setChosenGuest: (state, action) => {
+    setChosenGuest: (state, action: PayloadAction<TGuest>) => {
       state.chosenGuest = action.payload;
     },
     clearChosenGuest: (state) => {

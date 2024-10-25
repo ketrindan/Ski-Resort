@@ -19,7 +19,7 @@ export type TFormData = {
   durationStart: Date;
   durationEnd: Date;
   cost: number;
-  guestId?: number;
+  guestId?: string;
 };
 
 const schema = yup
@@ -28,7 +28,7 @@ const schema = yup
     durationStart: yup.date().required(),
     durationEnd: yup.date().required(),
     cost: yup.number().positive().integer().required(),
-    guestId: yup.number().positive().integer(),
+    guestId: yup.string(),
   })
   .required();
 

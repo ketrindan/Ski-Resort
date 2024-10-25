@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TGuest } from "~entities/guest/guestSlice";
 import { Person } from "~entities/person";
 import { axios } from "~shared/api/interceptors";
@@ -6,7 +6,7 @@ import { Status } from "~shared/lib/status";
 
 export type TCoach = Person & {
   sex?: string | null;
-  skiPassId?: number | null;
+  skiPassId?: string | null;
   skiPassCost?: number | null;
   skiPassDuration?: string | null;
   category: string;
@@ -53,7 +53,7 @@ export const addNewCoach = createAsyncThunk(
 
 export const deleteCoach = createAsyncThunk(
   "coaches/deleteCoach",
-  async (id: number) => {
+  async (id: string) => {
     const res = await axios.delete(`/coach/${id}`);
     return res;
   },
@@ -63,8 +63,8 @@ const coachSlice = createSlice({
   name: "coach",
   initialState,
   reducers: {
-    setChosenCoach: (state, action) => {
-      state.chosenCoach = action.payload.payload;
+    setChosenCoach: (state, action: PayloadAction<TCoach>) => {
+      state.chosenCoach = action.payload;
     },
     clearChosenCoach: (state) => {
       state.chosenCoach = null;

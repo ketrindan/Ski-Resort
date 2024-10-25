@@ -11,6 +11,14 @@ export const coachHandlers = [
     );
   }),
 
+  http.delete("https://ski-resort/coach/:id", async ({ params }) => {
+    const { id } = params;
+    console.log(id);
+    return HttpResponse.json(
+      defaultCoachesMockManager.deleteCoach(id as string),
+    );
+  }),
+
   // http.post("https://ski-resort/login", async ({ request }) => {
   //   const data = (await request.json()) as TAuthData;
   //   return HttpResponse.json(defaultUserMockManager.logIn(data));

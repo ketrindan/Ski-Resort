@@ -9,6 +9,20 @@ export const guestHandlers = [
     return HttpResponse.json(defaultGuestsMockManager.fetchGuests(page, size));
   }),
 
+  http.get("https://ski-resort/guest/:id", async ({ params }) => {
+    const { id } = params;
+    console.log(id);
+    return HttpResponse.json(defaultGuestsMockManager.getGuest(id as string));
+  }),
+
+  http.delete("https://ski-resort/guest/:id", async ({ params }) => {
+    const { id } = params;
+    console.log(id);
+    return HttpResponse.json(
+      defaultGuestsMockManager.deleteGuest(id as string),
+    );
+  }),
+
   // http.post("https://ski-resort/login", async ({ request }) => {
   //   const data = (await request.json()) as TAuthData;
   //   return HttpResponse.json(defaultUserMockManager.logIn(data));
@@ -19,11 +33,5 @@ export const guestHandlers = [
   //   return HttpResponse.json(
   //     defaultUserMockManager.editUser(data?.id, data?.login),
   //   );
-  // }),
-
-  // http.get("https://ski-resort/password/:id", async ({ params }) => {
-  //   const { id } = params;
-  //   console.log(id);
-  //   return HttpResponse.json(defaultUserMockManager.getPassword(id as string));
   // }),
 ];

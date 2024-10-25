@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import React, { useState, FC } from "react";
+import { useAppSelector } from "~app/store/hooks";
 import { CardMenu } from "~shared/menu";
 import { CardMenuItem } from "~shared/menu/api";
 import styles from "./SkipassItem.module.css";
@@ -15,6 +16,8 @@ interface ISkipass {
 const SkipassItem: FC<ISkipass> = ({ cost, duration, menuItems }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
+
+  const isAdminMode = useAppSelector((state) => state.user.isAdminMode);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -50,16 +53,18 @@ const SkipassItem: FC<ISkipass> = ({ cost, duration, menuItems }) => {
         <Typography className={styles.duration}>{duration}</Typography>
         <Typography className={styles.cost}>{cost} р</Typography>
       </Box>
-      <IconButton
-        size="large"
-        aria-label="display more actions"
-        edge="end"
-        color="inherit"
-        onClick={handleMenuOpen}
-        className={styles.button}
-      >
-        <MoreIcon className={styles.icon} />
-      </IconButton>
+      {isAdminMode && (
+        <IconButton
+          size="large"
+          aria-label="display more actions"
+          edge="end"
+          color="inherit"
+          onClick={handleMenuOpen}
+          className={styles.button}
+        >
+          <MoreIcon className={styles.icon} />
+        </IconButton>
+      )}
       <CardMenu
         anchorEl={anchorEl}
         menuItems={menuItems}

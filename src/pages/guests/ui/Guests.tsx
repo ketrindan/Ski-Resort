@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import { ListContainer } from "~widgets/list-container";
 import { Navbar } from "~widgets/navbar";
 import { openAddGuestPopup } from "~features/popup/popupSlice";
-import { fetchGuests } from "~entities/guest/guestSlice";
+import { fetchGuests, setChosenGuest } from "~entities/guest/guestSlice";
 import { AddButton } from "~shared/add-button";
 import { ContainerLayout } from "~shared/container-layout";
 import { convertAge } from "~shared/lib/convertAge";
@@ -67,6 +67,7 @@ const GuestsPage = () => {
                 menuItems={
                   guest.coachId ? guestMenuItems.slice(1) : guestMenuItems
                 }
+                getData={dispatch(setChosenGuest(guest))}
               />
             ))}
           </StatusWrapper>

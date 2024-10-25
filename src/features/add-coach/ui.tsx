@@ -25,7 +25,7 @@ export type TFormData = {
   surname: string;
   birthDate: Date;
   gender?: string;
-  guestId?: number;
+  guestId?: string;
   sport: string;
 };
 
@@ -36,7 +36,7 @@ const schema = yup
     surname: yup.string().min(2, "Минимальная длина 2 символа").required(),
     birthDate: yup.date().required(),
     gender: yup.string(),
-    guestId: yup.number().positive().integer(),
+    guestId: yup.string(),
     sport: yup.string().required(),
   })
   .required();
@@ -70,9 +70,10 @@ export const AddCoach: FC = () => {
         category: data.sport,
       }),
     )
-      .then((res) => {
+      .unwrap()
+      .then((coach) => {
         dispatch(closeAddCoachPopup());
-        dispatch(setChosenCoach(res));
+        coach && dispatch(setChosenCoach(coach));
       })
       .then(() => {
         dispatch(openConfirmCoachPopup());

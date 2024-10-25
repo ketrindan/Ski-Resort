@@ -10,6 +10,10 @@ export class guestsMockManager {
     this._guests = guests;
   }
 
+  updateGuests(data: TGuest[]) {
+    this._guests = data;
+  }
+
   fetchGuests(page: number, size: number) {
     const data = this._guests?.slice(page * size, page * size + size);
 
@@ -22,6 +26,15 @@ export class guestsMockManager {
     };
 
     return result;
+  }
+
+  getGuest(id: string) {
+    return this._guests.find((guest) => guest.id === id);
+  }
+
+  deleteGuest(id: string) {
+    this.updateGuests(this._guests.filter((guest) => guest.id !== id));
+    return this._guests.find((guest) => guest.id === id);
   }
 }
 

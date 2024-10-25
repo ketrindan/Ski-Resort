@@ -2,6 +2,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import React, { FC, useState } from "react";
+import { AnyAction } from "redux";
 import { useAppSelector } from "~app/store/hooks";
 import { CardMenu } from "~shared/menu";
 import { CardMenuItem } from "~shared/menu/api";
@@ -13,9 +14,16 @@ interface IPersonItem {
   subtitle: string;
   img?: string;
   menuItems: CardMenuItem[];
+  getData?: AnyAction;
 }
 
-const PersonItem: FC<IPersonItem> = ({ title, subtitle, img, menuItems }) => {
+const PersonItem: FC<IPersonItem> = ({
+  title,
+  subtitle,
+  img,
+  menuItems,
+  getData,
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
 
@@ -48,6 +56,7 @@ const PersonItem: FC<IPersonItem> = ({ title, subtitle, img, menuItems }) => {
         menuItems={menuItems}
         onClose={handleMenuClose}
         open={isMenuOpen}
+        getData={getData}
       />
     </Box>
   );

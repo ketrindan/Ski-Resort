@@ -10,6 +10,10 @@ export class coachesMockManager {
     this._coaches = coaches;
   }
 
+  updateGuests(data: TCoach[]) {
+    this._coaches = data;
+  }
+
   fetchCoaches(page: number, size: number) {
     const data = this._coaches?.slice(page * size, page * size + size);
 
@@ -22,6 +26,11 @@ export class coachesMockManager {
     };
 
     return result;
+  }
+
+  deleteCoach(id: string) {
+    this.updateGuests(this._coaches.filter((coach) => coach.id !== id));
+    return this._coaches.find((coach) => coach.id === id);
   }
 }
 
