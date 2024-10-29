@@ -67,7 +67,7 @@ const GuestsPage = () => {
                 menuItems={
                   guest.coachId ? guestMenuItems.slice(1) : guestMenuItems
                 }
-                getData={dispatch(setChosenGuest(guest))}
+                getData={setChosenGuest(guest)}
               />
             ))}
           </StatusWrapper>

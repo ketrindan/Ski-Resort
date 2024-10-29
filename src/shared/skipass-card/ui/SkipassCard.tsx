@@ -5,15 +5,15 @@ import { AvatarItem } from "~shared/avatar-item";
 import styles from "./SkipassCard.module.css";
 
 interface ISkipassCard {
-  number: number;
+  id: string;
   img?: string;
 }
 
-const PersonCard: FC<ISkipassCard> = ({ number, img }) => {
+const PersonCard: FC<ISkipassCard> = ({ id, img }) => {
   return (
     <Box className={styles.card}>
       <AvatarItem photo={img} variant="rounded" />
-      <Typography className={styles.number}>{number}</Typography>
+      <Typography className={styles.number}>{id}</Typography>
     </Box>
   );
 };

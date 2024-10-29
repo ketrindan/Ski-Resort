@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import { ListContainer } from "~widgets/list-container";
 import { Navbar } from "~widgets/navbar";
 import { openAddCoachPopup } from "~features/popup/popupSlice";
-import { fetchCoaches } from "~entities/coach/coachSlice";
+import { fetchCoaches, setChosenCoach } from "~entities/coach/coachSlice";
 import { AddButton } from "~shared/add-button";
 import { ContainerLayout } from "~shared/container-layout";
 import { coachMenuItems } from "~shared/lib/menu-items";
@@ -62,6 +62,7 @@ const CoachesPage = () => {
                 subtitle={coach.category}
                 img={coach.photo}
                 menuItems={coachMenuItems}
+                getData={setChosenCoach(coach)}
               />
             ))}
           </StatusWrapper>

@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import React, { useState, FC } from "react";
+import { AnyAction } from "redux";
 import { useAppSelector } from "~app/store/hooks";
 import { CardMenu } from "~shared/menu";
 import { CardMenuItem } from "~shared/menu/api";
@@ -11,9 +12,10 @@ interface ISkipass {
   cost: number;
   duration: string;
   menuItems: CardMenuItem[];
+  getData?: AnyAction;
 }
 
-const SkipassItem: FC<ISkipass> = ({ cost, duration, menuItems }) => {
+const SkipassItem: FC<ISkipass> = ({ cost, duration, menuItems, getData }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
 
@@ -70,6 +72,7 @@ const SkipassItem: FC<ISkipass> = ({ cost, duration, menuItems }) => {
         menuItems={menuItems}
         onClose={handleMenuClose}
         open={isMenuOpen}
+        getData={getData}
       />
     </Box>
   );

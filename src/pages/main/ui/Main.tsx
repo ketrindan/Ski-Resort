@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
-import { skipasses } from "~pages/skipasses/ui/skipasses.mock";
 import { ListContainer } from "~widgets/list-container";
 import { Navbar } from "~widgets/navbar";
 import {
@@ -10,6 +9,10 @@ import {
 } from "~features/popup/popupSlice";
 import { fetchCoaches, setChosenCoach } from "~entities/coach/coachSlice";
 import { fetchGuests, setChosenGuest } from "~entities/guest/guestSlice";
+import {
+  fetchSkipasses,
+  setChosenSkipass,
+} from "~entities/skipass/skipassSlice";
 import { AddButton } from "~shared/add-button";
 import { ContainerLayout } from "~shared/container-layout";
 import { convertAge } from "~shared/lib/convertAge";
@@ -25,18 +28,22 @@ import { SkipassItem } from "~shared/skipass-item";
 import { StatusWrapper } from "~shared/status-wrapper";
 
 const personItemsNumber: number = 10;
+const skipassesItemsNumber: number = 3;
 
 const MainPage = () => {
   const guests = useAppSelector((state) => state.guests.guestsData);
   const guestsStatus = useAppSelector((state) => state.guests.status);
   const coachesStatus = useAppSelector((state) => state.coaches.status);
   const coaches = useAppSelector((state) => state.coaches.coachesData);
+  const skipasses = useAppSelector((state) => state.skipasses.skipassData);
+  const skipassesStatus = useAppSelector((state) => state.skipasses.status);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchGuests({ page: 0, size: personItemsNumber }));
     dispatch(fetchCoaches({ page: 0, size: personItemsNumber }));
+    dispatch(fetchSkipasses({ page: 0, size: skipassesItemsNumber }));
   }, [dispatch]);
 
   return (
@@ -63,7 +70,7 @@ const MainPage = () => {
                 menuItems={
                   guest.coachId ? guestMenuItems.slice(1) : guestMenuItems
                 }
-                getData={dispatch(setChosenGuest(guest))}
+                getData={setChosenGuest(guest)}
               />
             ))}
           </StatusWrapper>
@@ -87,7 +94,7 @@ const MainPage = () => {
                 subtitle={coach.category}
                 img={coach.photo}
                 menuItems={coachMenuItems}
-                getData={dispatch(setChosenCoach(coach))}
+                getData={setChosenCoach(coach)}
               />
             ))}
           </StatusWrapper>
@@ -103,14 +110,17 @@ const MainPage = () => {
           main
           link={routes.skipasses}
         >
-          {skipasses.slice(0, 3).map((skipass) => (
-            <SkipassItem
-              key={skipass.id}
-              cost={skipass.cost}
-              duration={skipass.duration}
-              menuItems={skipassMenuItems}
-            />
-          ))}
+          <StatusWrapper status={skipassesStatus}>
+            {skipasses.map((skipass) => (
+              <SkipassItem
+                key={skipass.id}
+                cost={skipass.cost}
+                duration={skipass.duration}
+                menuItems={skipassMenuItems}
+                getData={setChosenSkipass(skipass)}
+              />
+            ))}
+          </StatusWrapper>
         </ListContainer>
       </ContainerLayout>
     </PageLayout>

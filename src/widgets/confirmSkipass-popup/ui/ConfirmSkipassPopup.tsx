@@ -1,6 +1,10 @@
 import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
-import { closeConfirmSkiPassPopup } from "~features/popup/popupSlice";
+import {
+  closeConfirmSkiPassPopup,
+  openDeleteSkiPassPopup,
+} from "~features/popup/popupSlice";
+import { clearChosenSkipass } from "~entities/skipass/skipassSlice";
 import { ActionButtons } from "~shared/action-buttons";
 import { CardInfo } from "~shared/card-info";
 import { ModalComponent } from "~shared/modal";
@@ -12,36 +16,47 @@ const ConfirmSkipassPopup: FC = () => {
     (state) => state.popups.isConfirmSkiPassPopupOpen,
   );
 
-  const dispatch = useAppDispatch();
+  const data = useAppSelector((state) => state.skipasses.chosenSkipass);
 
-  const test = {
-    number: 123456,
-    duration: "8:00 - 16:00",
-    cost: 3500,
-    agent: "Сергей Иванов",
-  };
+  const dispatch = useAppDispatch();
 
   return (
     <ModalComponent
       title="Карточка ски-пасса"
       open={popupOpen}
-      handleClose={() => dispatch(closeConfirmSkiPassPopup())}
+      handleClose={() => {
+        dispatch(closeConfirmSkiPassPopup());
+        dispatch(clearChosenSkipass());
+      }}
       headerButton={
         <ActionButtons
           onEditClick={() => console.log("edit")}
-          onDeleteClick={() => console.log("delete")}
+          onDeleteClick={() => {
+            dispatch(closeConfirmSkiPassPopup());
+            dispatch(openDeleteSkiPassPopup());
+          }}
         />
       }
     >
-      <SkipassCard number={test.number} />
-      <CardInfo title="Время действия" subtitle={test.duration} />
-      <CardInfo title="Цена" subtitle={test.cost} />
-      <CardInfo title="Назначенный посетитель" subtitle={test.agent} />
-      <ModalButton
-        btnText="Ок"
-        onClick={() => dispatch(closeConfirmSkiPassPopup())}
-        type="button"
-      />
+      {data ? (
+        <>
+          <SkipassCard id={data.id} />
+          <CardInfo title="Время действия" subtitle={data.duration} />
+          <CardInfo title="Цена" subtitle={data.cost} />
+          <CardInfo
+            title="Назначенный посетитель"
+            subtitle={data.agent?.name ?? "-"}
+          />
+          <ModalButton
+            btnText="Ок"
+            onClick={() => {
+              dispatch(closeConfirmSkiPassPopup());
+              dispatch(clearChosenSkipass());
+            }}
+            type="button"
+          />
+        </>
+      ) : null}
     </ModalComponent>
   );
 };
