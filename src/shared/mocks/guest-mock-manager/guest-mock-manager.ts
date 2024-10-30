@@ -69,6 +69,8 @@ export class guestsMockManager {
       coach && coach.guests?.push(newGuest);
     }
 
+    this._guests.unshift(newGuest);
+
     return newGuest;
   }
 
