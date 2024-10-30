@@ -1,0 +1,46 @@
+.info {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.duration {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  line-height: 20px;
+}
+
+.cost {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 20px;
+}
+
+.duration_menu {
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.cost_menu {
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.box {
+  width: 100%;
+  padding: 5px;
+}
+
+.box_day {
+  background-image: url(./Rectangle\ 1255.svg);
+}
+
+.box_noon {
+  background-image: url(./Rectangle\ 1255\ \(1\).svg);
+}
+
+.box_evening {
+  background-image: url(./Rectangle\ 1255\ \(2\).svg);
+}

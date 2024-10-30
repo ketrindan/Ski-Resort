@@ -57,7 +57,6 @@ export const editUser = createAsyncThunk(
   "user/edit",
   async (data: { id: string; login: string }) => {
     const res = await axios.patch<TUser["login"]>("/edit", data);
-    console.log(res.data);
     return res.data;
   },
 );

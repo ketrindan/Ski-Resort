@@ -45,7 +45,7 @@ const ConfirmSkipassPopup: FC = () => {
           <CardInfo title="Цена" subtitle={data.cost} />
           <CardInfo
             title="Назначенный посетитель"
-            subtitle={data.agent?.name ?? "-"}
+            subtitle={(data.agents && data.agents[0].name) ?? "-"}
           />
           <ModalButton
             btnText="Ок"

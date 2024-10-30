@@ -1,12 +1,12 @@
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import React, { useState, FC } from "react";
 import { AnyAction } from "redux";
 import { useAppSelector } from "~app/store/hooks";
 import { CardMenu } from "~shared/menu";
 import { CardMenuItem } from "~shared/menu/api";
+import { SkipasInfo } from "~shared/skipass-info";
 import styles from "./SkipassItem.module.css";
 interface ISkipass {
   cost: number;
@@ -51,10 +51,7 @@ const SkipassItem: FC<ISkipass> = ({ cost, duration, menuItems, getData }) => {
 
   return (
     <Box className={setClass()}>
-      <Box className={styles.info}>
-        <Typography className={styles.duration}>{duration}</Typography>
-        <Typography className={styles.cost}>{cost} р</Typography>
-      </Box>
+      <SkipasInfo duration={duration} cost={cost} />
       {isAdminMode && (
         <IconButton
           size="large"

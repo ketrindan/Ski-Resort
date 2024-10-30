@@ -1,4 +1,5 @@
 import { http, HttpResponse } from "msw";
+import { TGuest } from "~entities/guest/guestSlice";
 import { defaultGuestsMockManager } from "./guest-mock-manager";
 
 export const guestHandlers = [
@@ -11,13 +12,29 @@ export const guestHandlers = [
 
   http.get("https://ski-resort/guest/:id", async ({ params }) => {
     const { id } = params;
-    console.log(id);
     return HttpResponse.json(defaultGuestsMockManager.getGuest(id as string));
   }),
 
+  http.post("https://ski-resort/guest", async ({ request }) => {
+    const newGuestData = (await request.json()) as TGuest;
+    return HttpResponse.json(defaultGuestsMockManager.addGuest(newGuestData));
+  }),
+
+  http.put(
+    "https://ski-resort/guest/:guestId/coach/:coachId",
+    async ({ params }) => {
+      const { guestId, coachId } = params;
+      return HttpResponse.json(
+        defaultGuestsMockManager.addCoachtoGuest(
+          guestId as string,
+          coachId as string,
+        ),
+      );
+    },
+  ),
+
   http.delete("https://ski-resort/guest/:id", async ({ params }) => {
     const { id } = params;
-    console.log(id);
     return HttpResponse.json(
       defaultGuestsMockManager.deleteGuest(id as string),
     );

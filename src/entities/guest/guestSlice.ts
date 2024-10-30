@@ -62,8 +62,8 @@ export const getGuest = createAsyncThunk(
 export const deleteGuest = createAsyncThunk(
   "guests/deleteGuest",
   async (id: string) => {
-    const res = await axios.delete(`/guest/${id}`);
-    return res;
+    const res = await axios.delete<TGuest>(`/guest/${id}`);
+    return res.data;
   },
 );
 
@@ -76,8 +76,33 @@ export const addCoachToGuest = createAsyncThunk(
     guestId: string | unknown;
     coachId: string;
   }) => {
-    const res = await axios.put(`/guest/${guestId}/coach/${coachId}`);
-    return res;
+    const res = await axios.put<TGuest>(`/guest/${guestId}/coach/${coachId}`);
+    return res.data;
+  },
+);
+
+export const addSkipassToGuest = createAsyncThunk(
+  "guests/addSkipassToGuest",
+  async ({
+    guestId,
+    skiPassId,
+  }: {
+    guestId: string | unknown;
+    skiPassId: string;
+  }) => {
+    const res = await axios.put<TGuest>(
+      `/guest/${guestId}/skipass/${skiPassId}`,
+    );
+    return res.data;
+  },
+);
+
+export const editGuest = createAsyncThunk(
+  "guests/edit",
+  async ({ id, data }: { id: string; data: TGuest }) => {
+    const res = await axios.patch<TGuest>(`/guest/edit/${id}`, data);
+    console.log(res.data);
+    return res.data;
   },
 );
 
@@ -113,6 +138,21 @@ const guestSlice = createSlice({
         state.guestsData = state.guestsData.filter(
           (guest) => guest.id !== action.meta.arg,
         );
+      })
+      .addCase(addCoachToGuest.fulfilled, (state, action) => {
+        state.guestsData = state.guestsData.map((guest) => {
+          return guest.id === action.meta.arg.guestId ? action.payload : guest;
+        });
+      })
+      .addCase(addSkipassToGuest.fulfilled, (state, action) => {
+        state.guestsData = state.guestsData.map((guest) => {
+          return guest.id === action.meta.arg.guestId ? action.payload : guest;
+        });
+      })
+      .addCase(editGuest.fulfilled, (state, action) => {
+        state.guestsData = state.guestsData.map((guest) => {
+          return guest.id === action.meta.arg.id ? action.payload : guest;
+        });
       });
   },
 });

@@ -35,7 +35,7 @@ export const fetchSkipasses = createAsyncThunk(
 );
 
 export const addNewSkipass = createAsyncThunk(
-  "guests/addNewGuest",
+  "guests/addNewSkipass",
   async (info: Skipass) => {
     const res = await axios.post<Skipass>("/skipass", info);
     return res.data;
