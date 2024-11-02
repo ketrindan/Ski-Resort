@@ -48,20 +48,15 @@ export class coachesMockManager {
     return newCoach;
   }
 
-  addCoachtoGuest(guestId: string, coachId: string) {
-    const guest = this._guests.find((guest) => guest.id === guestId) as TGuest;
+  addGuestToCoach(guestId: string, coachId: string) {
+    const guest = this._guests.find((guest) => guest.id === guestId);
     const coach = this._coaches.find((coach) => coach.id === coachId);
 
     if (guest && coach) {
-      guest.coachNameSurname = `${coach?.name} ${coach?.surname}`;
-      guest.coachCategory = coach?.category;
-      guest.coachSex = coach?.sex;
       coach.guests?.push(guest);
     }
 
-    console.log(guest);
-
-    return guest;
+    return coach;
   }
 
   deleteCoach(id: string) {

@@ -25,6 +25,19 @@ export const coachHandlers = [
     );
   }),
 
+  http.put(
+    "https://ski-resort/coach/:coachId/guest/:guestId",
+    async ({ params }) => {
+      const { guestId, coachId } = params;
+      return HttpResponse.json(
+        defaultCoachesMockManager.addGuestToCoach(
+          guestId as string,
+          coachId as string,
+        ),
+      );
+    },
+  ),
+
   // http.post("https://ski-resort/login", async ({ request }) => {
   //   const data = (await request.json()) as TAuthData;
   //   return HttpResponse.json(defaultUserMockManager.logIn(data));

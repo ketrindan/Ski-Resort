@@ -10,6 +10,7 @@ export const coaches: TCoach[] = [
     surname: "Иванова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1992",
@@ -18,6 +19,7 @@ export const coaches: TCoach[] = [
     surname: "Сидоров",
     category: "Лыжи. Опыт 5 лет.",
     photo: photo2,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -26,6 +28,7 @@ export const coaches: TCoach[] = [
     surname: "Петрова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -34,6 +37,7 @@ export const coaches: TCoach[] = [
     surname: "Васильева",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1992",
@@ -42,6 +46,7 @@ export const coaches: TCoach[] = [
     surname: "Семенов",
     category: "Лыжи. Опыт 5 лет.",
     photo: photo2,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -50,6 +55,7 @@ export const coaches: TCoach[] = [
     surname: "Меньшикова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -58,6 +64,7 @@ export const coaches: TCoach[] = [
     surname: "Краснова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1992",
@@ -66,6 +73,7 @@ export const coaches: TCoach[] = [
     surname: "Васечкин",
     category: "Лыжи. Опыт 5 лет.",
     photo: photo2,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -74,6 +82,7 @@ export const coaches: TCoach[] = [
     surname: "Соловьева",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -82,6 +91,7 @@ export const coaches: TCoach[] = [
     surname: "Насонова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1992",
@@ -90,6 +100,7 @@ export const coaches: TCoach[] = [
     surname: "Веселов",
     category: "Лыжи. Опыт 5 лет.",
     photo: photo2,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -98,6 +109,7 @@ export const coaches: TCoach[] = [
     surname: "Белова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -106,6 +118,7 @@ export const coaches: TCoach[] = [
     surname: "Чернова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1992",
@@ -114,6 +127,7 @@ export const coaches: TCoach[] = [
     surname: "Новиков",
     category: "Лыжи. Опыт 5 лет.",
     photo: photo2,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -122,6 +136,7 @@ export const coaches: TCoach[] = [
     surname: "Серова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -130,6 +145,7 @@ export const coaches: TCoach[] = [
     surname: "Волкова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1992",
@@ -138,6 +154,7 @@ export const coaches: TCoach[] = [
     surname: "Жилин",
     category: "Лыжи. Опыт 5 лет.",
     photo: photo2,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -146,6 +163,7 @@ export const coaches: TCoach[] = [
     surname: "Стеклова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -154,6 +172,7 @@ export const coaches: TCoach[] = [
     surname: "Красин",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1992",
@@ -162,6 +181,7 @@ export const coaches: TCoach[] = [
     surname: "Киселев",
     category: "Лыжи. Опыт 5 лет.",
     photo: photo2,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -170,6 +190,7 @@ export const coaches: TCoach[] = [
     surname: "Меньшова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -178,6 +199,7 @@ export const coaches: TCoach[] = [
     surname: "Романова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1992",
@@ -186,6 +208,7 @@ export const coaches: TCoach[] = [
     surname: "Алексеев",
     category: "Лыжи. Опыт 5 лет.",
     photo: photo2,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -194,6 +217,7 @@ export const coaches: TCoach[] = [
     surname: "Андреева",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -202,6 +226,7 @@ export const coaches: TCoach[] = [
     surname: "Степанова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1992",
@@ -210,6 +235,7 @@ export const coaches: TCoach[] = [
     surname: "Стрелков",
     category: "Лыжи. Опыт 5 лет.",
     photo: photo2,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -218,6 +244,7 @@ export const coaches: TCoach[] = [
     surname: "Дмитриева",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -226,6 +253,7 @@ export const coaches: TCoach[] = [
     surname: "Малышева",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1992",
@@ -234,6 +262,7 @@ export const coaches: TCoach[] = [
     surname: "Пушкин",
     category: "Лыжи. Опыт 5 лет.",
     photo: photo2,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -242,6 +271,7 @@ export const coaches: TCoach[] = [
     surname: "Тимофеев",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -250,6 +280,7 @@ export const coaches: TCoach[] = [
     surname: "Леонова",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
   {
     birthDate: "01.01.1992",
@@ -258,6 +289,7 @@ export const coaches: TCoach[] = [
     surname: "Багров",
     category: "Лыжи. Опыт 5 лет.",
     photo: photo2,
+    guests: [],
   },
   {
     birthDate: "01.01.1998",
@@ -266,5 +298,6 @@ export const coaches: TCoach[] = [
     surname: "Зимина",
     category: "Сноуборд. Опыт 10 лет.",
     photo: photo1,
+    guests: [],
   },
 ];

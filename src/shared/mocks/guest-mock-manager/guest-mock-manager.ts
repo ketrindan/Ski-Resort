@@ -65,8 +65,6 @@ export class guestsMockManager {
       newGuest.coachCategory = coach?.category;
       newGuest.coachNameSurname = `${coach?.name} ${coach?.surname}`;
       newGuest.coachSex = coach?.sex;
-
-      coach && coach.guests?.push(newGuest);
     }
 
     this._guests.unshift(newGuest);

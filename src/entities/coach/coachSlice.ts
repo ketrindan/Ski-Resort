@@ -11,7 +11,7 @@ export type TCoach = Person & {
   skiPassDuration?: string | null;
   category: string;
   photo?: string;
-  guests?: TGuest[];
+  guests: TGuest[];
 };
 
 export type TResponse = {
@@ -52,7 +52,7 @@ export const addNewCoach = createAsyncThunk(
 );
 
 export const addGuestToCoach = createAsyncThunk(
-  "guests/addGuestToCoach",
+  "coaches/addGuestToCoach",
   async ({
     guestId,
     coachId,

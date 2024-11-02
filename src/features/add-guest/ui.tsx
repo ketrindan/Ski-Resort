@@ -9,6 +9,7 @@ import {
   closeAddGuestPopup,
   openConfirmGuestPopup,
 } from "~features/popup/popupSlice";
+import { addGuestToCoach } from "~entities/coach/coachSlice";
 import { addNewGuest, setChosenGuest } from "~entities/guest/guestSlice";
 import { AvatarItem } from "~shared/avatar-item";
 import { DateInput } from "~shared/date-input";
@@ -72,6 +73,10 @@ export const AddGuest: FC = () => {
       .unwrap()
       .then((guest) => {
         dispatch(closeAddGuestPopup());
+        data.coachId &&
+          dispatch(
+            addGuestToCoach({ guestId: guest.id, coachId: data.coachId }),
+          );
         guest && dispatch(setChosenGuest(guest));
       })
       .then(() => {

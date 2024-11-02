@@ -6,7 +6,7 @@ import styles from "./PersonCard.module.css";
 
 interface IPersonCard {
   name: string;
-  sport: string;
+  sport?: string;
   img?: string;
 }
 
