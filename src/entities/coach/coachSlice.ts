@@ -11,7 +11,7 @@ export type TCoach = Person & {
   skiPassDuration?: string | null;
   category: string;
   photo?: string;
-  guests?: TGuest[] | null;
+  guests?: TGuest[];
 };
 
 export type TResponse = {
@@ -51,11 +51,34 @@ export const addNewCoach = createAsyncThunk(
   },
 );
 
+export const addGuestToCoach = createAsyncThunk(
+  "guests/addGuestToCoach",
+  async ({
+    guestId,
+    coachId,
+  }: {
+    guestId: string | unknown;
+    coachId: string;
+  }) => {
+    const res = await axios.put<TCoach>(`/coach/${coachId}/guest/${guestId}`);
+    return res.data;
+  },
+);
+
 export const deleteCoach = createAsyncThunk(
   "coaches/deleteCoach",
   async (id: string) => {
     const res = await axios.delete(`/coach/${id}`);
     return res;
+  },
+);
+
+export const editCoach = createAsyncThunk(
+  "coaches/edit",
+  async ({ id, data }: { id: string; data: TCoach }) => {
+    const res = await axios.patch<TCoach>(`/coach/edit/${id}`, data);
+    console.log(res.data);
+    return res.data;
   },
 );
 
@@ -91,6 +114,16 @@ const coachSlice = createSlice({
         state.coachesData = state.coachesData.filter(
           (coach) => coach.id !== action.meta.arg,
         );
+      })
+      .addCase(addGuestToCoach.fulfilled, (state, action) => {
+        state.coachesData = state.coachesData.map((coach) => {
+          return coach.id === action.meta.arg.coachId ? action.payload : coach;
+        });
+      })
+      .addCase(editCoach.fulfilled, (state, action) => {
+        state.coachesData = state.coachesData.map((coach) => {
+          return coach.id === action.meta.arg.id ? action.payload : coach;
+        });
       });
   },
 });

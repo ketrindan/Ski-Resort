@@ -100,8 +100,6 @@ export class guestsMockManager {
       coach.guests?.push(guest);
     }
 
-    console.log(guest);
-
     return guest;
   }
 

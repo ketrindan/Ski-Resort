@@ -1,13 +1,17 @@
 // import { HttpResponse } from "msw";
-// import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import { TCoach } from "~entities/coach/coachSlice";
+import { TGuest } from "~entities/guest/guestSlice";
+import { guests } from "../guest-mock-manager/guest-mock";
 import { coaches } from "./coach-mocks";
 
 export class coachesMockManager {
   private _coaches: TCoach[];
+  private _guests: TGuest[];
 
   constructor() {
     this._coaches = coaches;
+    this._guests = guests;
   }
 
   updateGuests(data: TCoach[]) {
@@ -26,6 +30,38 @@ export class coachesMockManager {
     };
 
     return result;
+  }
+
+  addCoach(data: TCoach) {
+    const newCoach: TCoach = {
+      id: uuidv4(),
+      name: data.name,
+      surname: data.surname,
+      birthDate: data.birthDate,
+      category: data.category,
+      sex: data.sex,
+      guests: data.guests,
+    };
+
+    this._coaches.unshift(newCoach);
+
+    return newCoach;
+  }
+
+  addCoachtoGuest(guestId: string, coachId: string) {
+    const guest = this._guests.find((guest) => guest.id === guestId) as TGuest;
+    const coach = this._coaches.find((coach) => coach.id === coachId);
+
+    if (guest && coach) {
+      guest.coachNameSurname = `${coach?.name} ${coach?.surname}`;
+      guest.coachCategory = coach?.category;
+      guest.coachSex = coach?.sex;
+      coach.guests?.push(guest);
+    }
+
+    console.log(guest);
+
+    return guest;
   }
 
   deleteCoach(id: string) {

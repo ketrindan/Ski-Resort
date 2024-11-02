@@ -132,7 +132,7 @@ const guestSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addNewGuest.fulfilled, (state, action) => {
-        state.guestsData.unshift(action.payload);
+        state.guestsData = [action.payload, ...state.guestsData];
       })
       .addCase(deleteGuest.fulfilled, (state, action) => {
         state.guestsData = state.guestsData.filter(

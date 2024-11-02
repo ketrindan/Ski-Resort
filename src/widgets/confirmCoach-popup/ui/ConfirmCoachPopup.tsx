@@ -49,8 +49,10 @@ const ConfirmCoachPopup: FC = () => {
           <CardInfo
             title="Назначенный посетитель"
             subtitle={
-              data.guests
-                ? `${data.guests[-1].name} ${data.guests[-1].surname}`
+              data.guests && data.guests.length > 0
+                ? `${data.guests[data.guests.length - 1].name} ${
+                    data.guests[data.guests.length - 1].surname
+                  }`
                 : "-"
             }
           />

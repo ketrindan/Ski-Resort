@@ -1,4 +1,5 @@
 import { http, HttpResponse } from "msw";
+import { TCoach } from "~entities/coach/coachSlice";
 import { defaultCoachesMockManager } from "./coach-mock-manager";
 
 export const coachHandlers = [
@@ -9,6 +10,11 @@ export const coachHandlers = [
     return HttpResponse.json(
       defaultCoachesMockManager.fetchCoaches(page, size),
     );
+  }),
+
+  http.post("https://ski-resort/coach", async ({ request }) => {
+    const newCoachData = (await request.json()) as TCoach;
+    return HttpResponse.json(defaultCoachesMockManager.addCoach(newCoachData));
   }),
 
   http.delete("https://ski-resort/coach/:id", async ({ params }) => {

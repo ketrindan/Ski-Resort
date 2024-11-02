@@ -10,6 +10,7 @@ import {
   openConfirmCoachPopup,
 } from "~features/popup/popupSlice";
 import { addNewCoach, setChosenCoach } from "~entities/coach/coachSlice";
+import { addCoachToGuest, TGuest } from "~entities/guest/guestSlice";
 import { DateInput } from "~shared/date-input";
 import { FormBox } from "~shared/form-box";
 import { ImageInput } from "~shared/image-input";
@@ -61,6 +62,14 @@ export const AddCoach: FC = () => {
     dispatch(closeAddCoachPopup());
     setLoading(true);
     const birthDate = dayjs(data.birthDate).format("DD.MM.YYYY");
+    const guestList: TGuest[] = [];
+
+    if (data.guestId !== undefined) {
+      guestList.push(
+        guests.find((guest) => guest.id === data.guestId) as TGuest,
+      );
+    }
+
     return dispatch(
       addNewCoach({
         name: data.name,
@@ -68,11 +77,19 @@ export const AddCoach: FC = () => {
         birthDate: birthDate,
         sex: data.gender,
         category: data.sport,
+        guests: guestList,
       }),
     )
       .unwrap()
       .then((coach) => {
         dispatch(closeAddCoachPopup());
+        data.guestId &&
+          dispatch(
+            addCoachToGuest({
+              guestId: data.guestId,
+              coachId: coach.id as string,
+            }),
+          );
         coach && dispatch(setChosenCoach(coach));
       })
       .then(() => {
