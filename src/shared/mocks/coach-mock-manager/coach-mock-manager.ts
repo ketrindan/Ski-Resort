@@ -53,8 +53,10 @@ export class coachesMockManager {
     const coach = this._coaches.find((coach) => coach.id === coachId);
 
     if (guest && coach) {
-      coach.guests?.push(guest);
+      coach.guests.push(guest);
     }
+
+    console.log(coach);
 
     return coach;
   }
