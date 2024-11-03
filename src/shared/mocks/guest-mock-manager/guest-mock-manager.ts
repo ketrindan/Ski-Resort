@@ -80,8 +80,7 @@ export class guestsMockManager {
       guest.skiPassId = skipass.id;
       guest.skiPassCost = skipass.cost;
       guest.skiPassDuration = skipass.duration;
-
-      skipass && skipass.agents?.push(guest);
+      skipass.agents.push(guest);
     }
 
     return guest;
@@ -95,7 +94,7 @@ export class guestsMockManager {
       guest.coachNameSurname = `${coach?.name} ${coach?.surname}`;
       guest.coachCategory = coach?.category;
       guest.coachSex = coach?.sex;
-      coach.guests?.push(guest);
+      coach.guests.push(guest);
     }
 
     return guest;

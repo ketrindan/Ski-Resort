@@ -25,7 +25,7 @@ const initialState: skipassState = {
 };
 
 export const fetchSkipasses = createAsyncThunk(
-  "guests/fetchSkipasses",
+  "skipasses/fetchSkipasses",
   async ({ page, size }: { page: number; size: number }) => {
     const res = await axios.get<TResponse>(
       `/skipass?page=${page}&size=${size}`,
@@ -35,7 +35,7 @@ export const fetchSkipasses = createAsyncThunk(
 );
 
 export const addNewSkipass = createAsyncThunk(
-  "guests/addNewSkipass",
+  "skipasses/addNewSkipass",
   async (info: Skipass) => {
     const res = await axios.post<Skipass>("/skipass", info);
     return res.data;
@@ -43,7 +43,7 @@ export const addNewSkipass = createAsyncThunk(
 );
 
 export const getSkipass = createAsyncThunk(
-  "guests/getSkipass",
+  "skipasses/getSkipass",
   async (id: string) => {
     const res = await axios.get<Skipass>(`/skipass/${id}`);
     return res.data;
@@ -51,15 +51,15 @@ export const getSkipass = createAsyncThunk(
 );
 
 export const deleteSkipass = createAsyncThunk(
-  "guests/deleteSkipass",
+  "skipasses/deleteSkipass",
   async (id: string) => {
     const res = await axios.delete(`/skipass/${id}`);
     return res;
   },
 );
 
-export const addSkipassToGuest = createAsyncThunk(
-  "guests/addSkipassToGuest",
+export const addGuestToSkipass = createAsyncThunk(
+  "skipasses/addGuestToSkipass",
   async ({
     guestId,
     skipassId,
@@ -67,8 +67,19 @@ export const addSkipassToGuest = createAsyncThunk(
     guestId: string | unknown;
     skipassId: string;
   }) => {
-    const res = await axios.put(`/guest/${guestId}/skipass/${skipassId}`);
-    return res;
+    const res = await axios.put<Skipass>(
+      `/skipass/${skipassId}/guest/${guestId}`,
+    );
+    return res.data;
+  },
+);
+
+export const editSkipass = createAsyncThunk(
+  "skipasses/edit",
+  async ({ id, data }: { id: string; data: Skipass }) => {
+    const res = await axios.patch<Skipass>(`/skipass/edit/${id}`, data);
+    console.log(res.data);
+    return res.data;
   },
 );
 
@@ -98,12 +109,24 @@ const skipassSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addNewSkipass.fulfilled, (state, action) => {
-        state.skipassData.push(action.payload);
+        state.skipassData = [action.payload, ...state.skipassData];
       })
       .addCase(deleteSkipass.fulfilled, (state, action) => {
         state.skipassData = state.skipassData.filter(
-          (guest) => guest.id !== action.meta.arg,
+          (skipass) => skipass.id !== action.meta.arg,
         );
+      })
+      .addCase(addGuestToSkipass.fulfilled, (state, action) => {
+        state.skipassData = state.skipassData.map((skipass) => {
+          return skipass.id === action.meta.arg.skipassId
+            ? action.payload
+            : skipass;
+        });
+      })
+      .addCase(editSkipass.fulfilled, (state, action) => {
+        state.skipassData = state.skipassData.map((skipass) => {
+          return skipass.id === action.meta.arg.id ? action.payload : skipass;
+        });
       });
   },
 });

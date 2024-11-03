@@ -18,7 +18,7 @@ export const DeleteSkipass: FC = () => {
     <>
       {data ? (
         <>
-          <SkipassCard id={data.id} />
+          <SkipassCard id={data.id ?? ""} />
           <DeleteText item="ски-пасса" />
           <ModalButton
             btnText="Ок"

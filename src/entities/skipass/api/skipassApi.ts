@@ -3,6 +3,6 @@ import { TGuest } from "~entities/guest/guestSlice";
 export type Skipass = {
   cost: number;
   duration: string;
-  id: string;
-  agents?: TGuest[];
+  id?: string;
+  agents: TGuest[];
 };

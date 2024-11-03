@@ -56,8 +56,6 @@ export class coachesMockManager {
       coach.guests.push(guest);
     }
 
-    console.log(coach);
-
     return coach;
   }
 

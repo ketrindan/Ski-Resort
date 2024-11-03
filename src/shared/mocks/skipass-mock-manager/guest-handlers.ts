@@ -1,4 +1,5 @@
 import { http, HttpResponse } from "msw";
+import { Skipass } from "~entities/skipass";
 import { defaultSkipassesMockManager } from "./skipasses-mock-manager";
 
 export const skipassesHandlers = [
@@ -8,6 +9,13 @@ export const skipassesHandlers = [
     const size = Number(url.searchParams.get("size"));
     return HttpResponse.json(
       defaultSkipassesMockManager.fetchSkipasses(page, size),
+    );
+  }),
+
+  http.post("https://ski-resort/skipass", async ({ request }) => {
+    const newSkipassData = (await request.json()) as Skipass;
+    return HttpResponse.json(
+      defaultSkipassesMockManager.addSkipass(newSkipassData),
     );
   }),
 
@@ -26,6 +34,19 @@ export const skipassesHandlers = [
       defaultSkipassesMockManager.deleteSkipass(id as string),
     );
   }),
+
+  http.put(
+    "https://ski-resort/skipass/:skipassId/guest/:guestId",
+    async ({ params }) => {
+      const { guestId, coachId } = params;
+      return HttpResponse.json(
+        defaultSkipassesMockManager.addGuestToSkipass(
+          guestId as string,
+          coachId as string,
+        ),
+      );
+    },
+  ),
 
   // http.post("https://ski-resort/login", async ({ request }) => {
   //   const data = (await request.json()) as TAuthData;

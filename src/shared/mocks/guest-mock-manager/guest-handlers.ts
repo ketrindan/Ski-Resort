@@ -33,6 +33,19 @@ export const guestHandlers = [
     },
   ),
 
+  http.put(
+    "https://ski-resort/guest/:guestId/skipass/:skiPassId",
+    async ({ params }) => {
+      const { guestId, skiPassId } = params;
+      return HttpResponse.json(
+        defaultGuestsMockManager.addSkipasstoGuest(
+          guestId as string,
+          skiPassId as string,
+        ),
+      );
+    },
+  ),
+
   http.delete("https://ski-resort/guest/:id", async ({ params }) => {
     const { id } = params;
     return HttpResponse.json(

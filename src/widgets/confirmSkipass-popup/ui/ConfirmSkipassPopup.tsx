@@ -40,12 +40,18 @@ const ConfirmSkipassPopup: FC = () => {
     >
       {data ? (
         <>
-          <SkipassCard id={data.id} />
+          <SkipassCard id={data.id ?? ""} />
           <CardInfo title="Время действия" subtitle={data.duration} />
           <CardInfo title="Цена" subtitle={data.cost} />
           <CardInfo
             title="Назначенный посетитель"
-            subtitle={(data.agents && data.agents[0].name) ?? "-"}
+            subtitle={
+              data.agents && data.agents.length > 0
+                ? `${data.agents[data.agents.length - 1].name} ${
+                    data.agents[data.agents.length - 1].surname
+                  }`
+                : "-"
+            }
           />
           <ModalButton
             btnText="Ок"
