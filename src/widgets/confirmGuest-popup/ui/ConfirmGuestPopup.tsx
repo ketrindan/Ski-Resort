@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import {
   closeConfirmGuestPopup,
   openDeleteGuestPopup,
+  openEditGuestPopup,
 } from "~features/popup/popupSlice";
 import { clearChosenGuest } from "~entities/guest/guestSlice";
 import { ActionButtons } from "~shared/action-buttons";
@@ -30,7 +31,10 @@ const ConfirmGuestPopup: FC = () => {
       }}
       headerButton={
         <ActionButtons
-          onEditClick={() => console.log("edit")}
+          onEditClick={() => {
+            dispatch(closeConfirmGuestPopup());
+            dispatch(openEditGuestPopup());
+          }}
           onDeleteClick={() => {
             dispatch(closeConfirmGuestPopup());
             dispatch(openDeleteGuestPopup());

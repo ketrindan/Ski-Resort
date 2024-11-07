@@ -74,6 +74,38 @@ export const addGuestToSkipass = createAsyncThunk(
   },
 );
 
+export const removeGuestFromSkipass = createAsyncThunk(
+  "skipasses/removeGuestFromSkipass",
+  async ({
+    guestId,
+    skipassId,
+  }: {
+    guestId: string | unknown;
+    skipassId: string;
+  }) => {
+    const res = await axios.delete<Skipass>(
+      `/skipass/${skipassId}/guest/${guestId}`,
+    );
+    return res.data;
+  },
+);
+
+export const updateGuestToSkipass = createAsyncThunk(
+  "skipasses/updateGuestToSkipass",
+  async ({
+    guestId,
+    skipassId,
+  }: {
+    guestId: string | unknown;
+    skipassId: string;
+  }) => {
+    const res = await axios.patch<Skipass>(
+      `/skipass/${skipassId}/guest/${guestId}`,
+    );
+    return res.data;
+  },
+);
+
 export const editSkipass = createAsyncThunk(
   "skipasses/edit",
   async ({ id, data }: { id: string; data: Skipass }) => {
@@ -117,6 +149,20 @@ const skipassSlice = createSlice({
         );
       })
       .addCase(addGuestToSkipass.fulfilled, (state, action) => {
+        state.skipassData = state.skipassData.map((skipass) => {
+          return skipass.id === action.meta.arg.skipassId
+            ? action.payload
+            : skipass;
+        });
+      })
+      .addCase(removeGuestFromSkipass.fulfilled, (state, action) => {
+        state.skipassData = state.skipassData.map((skipass) => {
+          return skipass.id === action.meta.arg.skipassId
+            ? action.payload
+            : skipass;
+        });
+      })
+      .addCase(updateGuestToSkipass.fulfilled, (state, action) => {
         state.skipassData = state.skipassData.map((skipass) => {
           return skipass.id === action.meta.arg.skipassId
             ? action.payload

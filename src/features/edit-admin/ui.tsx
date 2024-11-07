@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
@@ -24,6 +24,8 @@ const schema = yup
   .required();
 
 export const EditAdmin: FC = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const user = useAppSelector((state) => state.user.userData);
 
   const dispatch = useAppDispatch();
@@ -40,10 +42,22 @@ export const EditAdmin: FC = () => {
 
   const { handleSubmit, formState } = methods;
 
+  const updateUser = (id: string, login: string) => {
+    return dispatch(editUser({ id: id, login: login }))
+      .then(() => {
+        dispatch(closeAdminPopup());
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   function onSubmit(data: TFormData) {
-    dispatch(editUser({ id: user.id, login: data.login }));
-    dispatch(closeAdminPopup());
-    console.log(data);
+    setLoading(true);
+    updateUser(user.id, data.login);
   }
 
   return (
@@ -54,7 +68,7 @@ export const EditAdmin: FC = () => {
         {/* <TextInput name="password" label="Пароль" /> */}
         <ModalButton
           btnText="Ок"
-          disabled={!formState.isValid || !formState.isDirty}
+          disabled={!formState.isValid || !formState.isDirty || loading}
         />
       </FormBox>
     </FormProvider>

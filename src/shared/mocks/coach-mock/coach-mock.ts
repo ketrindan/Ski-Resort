@@ -19,7 +19,20 @@ export const coaches: TCoach[] = [
     surname: "Сидоров",
     category: "Лыжи. Опыт 5 лет.",
     photo: photo2,
-    guests: [],
+    guests: [
+      {
+        birthDate: "01.11.1998",
+        id: "1",
+        name: "Татьяна",
+        surname: "Ларина",
+        coachId: "2",
+        coachNameSurname: "Борис Сидоров",
+        coachCategory: "Лыжи. Опыт 5 лет.",
+        skiPassId: "1",
+        skiPassCost: 3150,
+        skiPassDuration: "Дневной 8:30-16:00",
+      },
+    ],
   },
   {
     birthDate: "01.01.1998",

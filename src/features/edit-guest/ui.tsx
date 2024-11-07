@@ -1,17 +1,25 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import MenuItem from "@mui/material/MenuItem";
 import dayjs from "dayjs";
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import {
-  closeAddGuestPopup,
+  closeEditGuestPopup,
   openConfirmGuestPopup,
 } from "~features/popup/popupSlice";
-import { addGuestToCoach } from "~entities/coach/coachSlice";
-import { addNewGuest, setChosenGuest } from "~entities/guest/guestSlice";
-import { addGuestToSkipass } from "~entities/skipass/skipassSlice";
+import {
+  addGuestToCoach,
+  removeGuestFromCoach,
+  updateGuestToCoach,
+} from "~entities/coach/coachSlice";
+import { editGuest, setChosenGuest, TGuest } from "~entities/guest/guestSlice";
+import {
+  addGuestToSkipass,
+  removeGuestFromSkipass,
+  updateGuestToSkipass,
+} from "~entities/skipass/skipassSlice";
 import { AvatarItem } from "~shared/avatar-item";
 import { DateInput } from "~shared/date-input";
 import { FormBox } from "~shared/form-box";
@@ -39,8 +47,18 @@ const schema = yup
   })
   .required();
 
-export const AddGuest: FC = () => {
+export const EditGuest: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
+
+  const guest = useAppSelector((state) => state.guests.chosenGuest) as TGuest;
+
+  const prevCoach = useRef<string>();
+  const prevSkipass = useRef<string>();
+
+  useEffect(() => {
+    prevCoach.current = guest.coachId;
+    prevSkipass.current = guest.skiPassId;
+  }, [guest.coachId, guest.skiPassId]);
 
   // temp
   const coaches = useAppSelector((state) => state.coaches.coachesData);
@@ -52,30 +70,107 @@ export const AddGuest: FC = () => {
     mode: "onChange",
     reValidateMode: "onChange",
     resolver: yupResolver(schema),
+    defaultValues: {
+      name: guest.name,
+      surname: guest?.surname,
+      birthDate: dayjs(guest.birthDate, "DD.MM.YYYY") as unknown as string,
+      skipass: guest.skiPassId,
+      coachId: guest.coachId,
+    },
   });
 
   const { handleSubmit, formState } = methods;
 
-  const createGuest = (data: TFormData, birthDate: string) => {
+  const renderCoach = (id: string) => {
+    const coach = coaches.find((coach) => id === coach.id);
+
+    return (
+      coach && (
+        <MenuItem key={coach.id} value={coach.id}>
+          <PersonInfo
+            title={`${coach.name} ${coach.surname}`}
+            subtitle={coach.category}
+            img={coach.photo}
+          />
+        </MenuItem>
+      )
+    );
+  };
+
+  const renderSkipass = (id: string) => {
+    const skipass = skipasses.find((skipass) => id === skipass.id);
+
+    return (
+      skipass && (
+        <SkipasInfo
+          duration={skipass.duration}
+          cost={skipass.cost}
+          isMenuOption
+        />
+      )
+    );
+  };
+
+  const updateSkipass = (guestId: string, skipassId: string) => {
+    if (skipassId !== prevSkipass.current) {
+      return dispatch(
+        removeGuestFromSkipass({
+          guestId,
+          skipassId: prevSkipass.current as string,
+        }),
+      )
+        .then(() => {
+          dispatch(addGuestToSkipass({ guestId, skipassId }));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return dispatch(updateGuestToSkipass({ guestId, skipassId }));
+    }
+  };
+
+  const updateCoach = (guestId: string, coachId: string) => {
+    if (coachId !== prevCoach.current) {
+      return dispatch(
+        removeGuestFromCoach({
+          guestId,
+          coachId: prevCoach.current as string,
+        }),
+      )
+        .then(() => {
+          dispatch(addGuestToCoach({ guestId, coachId }));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return dispatch(updateGuestToCoach({ guestId, coachId }));
+    }
+  };
+
+  const updateGuest = (data: TFormData, birthDate: string) => {
+    const newData = {
+      name: data.name,
+      surname: data.surname,
+      birthDate: birthDate,
+      coachId: data.coachId,
+      skiPassId: data.skipass,
+    };
     return dispatch(
-      addNewGuest({
-        name: data.name,
-        surname: data.surname,
-        birthDate: birthDate,
-        coachId: data.coachId,
-        skiPassId: data.skipass,
+      editGuest({
+        guestId: guest.id as string,
+        data: newData,
       }),
     )
       .unwrap()
       .then((guest) => {
-        dispatch(closeAddGuestPopup());
-        dispatch(
-          addGuestToSkipass({ guestId: guest.id, skipassId: data.skipass }),
-        );
-        data.coachId &&
-          dispatch(
-            addGuestToCoach({ guestId: guest.id, coachId: data.coachId }),
-          );
+        dispatch(closeEditGuestPopup());
+
+        data.skipass && updateSkipass(guest.id as string, data.skipass);
+
+        data.coachId && updateCoach(guest.id as string, data.coachId);
+
         guest && dispatch(setChosenGuest(guest));
       })
       .then(() => {
@@ -93,7 +188,7 @@ export const AddGuest: FC = () => {
     setLoading(true);
     const birthDate = dayjs(data.birthDate).format("DD.MM.YYYY");
 
-    createGuest(data, birthDate);
+    updateGuest(data, birthDate);
   }
 
   return (
@@ -115,6 +210,7 @@ export const AddGuest: FC = () => {
               />
             </MenuItem>
           ))}
+          render={renderSkipass}
         />
         <SelectInput
           name="coachId"
@@ -128,10 +224,11 @@ export const AddGuest: FC = () => {
               />
             </MenuItem>
           ))}
+          render={renderCoach}
         />
         <ModalButton
-          btnText="Добавить"
-          disabled={!formState.isValid || loading}
+          btnText="Сохранить"
+          disabled={!formState.isValid || loading || !formState.isDirty}
         />
       </FormBox>
     </FormProvider>

@@ -4,14 +4,13 @@ import { axios } from "~shared/api/interceptors";
 import { Status } from "~shared/lib/status";
 
 export type TGuest = Person & {
-  skiPassId?: string | null;
-  coachId?: string | null;
-  coachNameSurname?: string | null;
-  coachCategory?: string | null;
-  coachSex?: string | null;
-  skiPassCost?: number | null;
-  skiPassDuration?: string | null;
-  visitDate: string;
+  skiPassId?: string;
+  coachId?: string;
+  coachNameSurname?: string;
+  coachCategory?: string;
+  coachSex?: string;
+  skiPassCost?: number;
+  skiPassDuration?: string;
 };
 
 export type TResponse = {
@@ -99,9 +98,8 @@ export const addSkipassToGuest = createAsyncThunk(
 
 export const editGuest = createAsyncThunk(
   "guests/edit",
-  async ({ id, data }: { id: string; data: TGuest }) => {
-    const res = await axios.patch<TGuest>(`/guest/edit/${id}`, data);
-    console.log(res.data);
+  async ({ guestId, data }: { guestId: string; data: TGuest }) => {
+    const res = await axios.patch<TGuest>(`/guest/edit/${guestId}`, data);
     return res.data;
   },
 );
@@ -151,7 +149,7 @@ const guestSlice = createSlice({
       })
       .addCase(editGuest.fulfilled, (state, action) => {
         state.guestsData = state.guestsData.map((guest) => {
-          return guest.id === action.meta.arg.id ? action.payload : guest;
+          return guest.id === action.meta.arg.guestId ? action.payload : guest;
         });
       });
   },

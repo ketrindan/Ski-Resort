@@ -5,10 +5,10 @@ import { axios } from "~shared/api/interceptors";
 import { Status } from "~shared/lib/status";
 
 export type TCoach = Person & {
-  sex?: string | null;
-  skiPassId?: string | null;
-  skiPassCost?: number | null;
-  skiPassDuration?: string | null;
+  sex?: string;
+  skiPassId?: string;
+  skiPassCost?: number;
+  skiPassDuration?: string;
   category: string;
   photo?: string;
   guests: TGuest[];
@@ -65,6 +65,36 @@ export const addGuestToCoach = createAsyncThunk(
   },
 );
 
+export const removeGuestFromCoach = createAsyncThunk(
+  "coaches/removeGuestFromCoach",
+  async ({
+    guestId,
+    coachId,
+  }: {
+    guestId: string | unknown;
+    coachId: string;
+  }) => {
+    const res = await axios.delete<TCoach>(
+      `/coach/${coachId}/guest/${guestId}`,
+    );
+    return res.data;
+  },
+);
+
+export const updateGuestToCoach = createAsyncThunk(
+  "coaches/updateGuestToCoach",
+  async ({
+    guestId,
+    coachId,
+  }: {
+    guestId: string | unknown;
+    coachId: string;
+  }) => {
+    const res = await axios.patch<TCoach>(`/coach/${coachId}/guest/${guestId}`);
+    return res.data;
+  },
+);
+
 export const deleteCoach = createAsyncThunk(
   "coaches/deleteCoach",
   async (id: string) => {
@@ -116,6 +146,16 @@ const coachSlice = createSlice({
         );
       })
       .addCase(addGuestToCoach.fulfilled, (state, action) => {
+        state.coachesData = state.coachesData.map((coach) => {
+          return coach.id === action.meta.arg.coachId ? action.payload : coach;
+        });
+      })
+      .addCase(removeGuestFromCoach.fulfilled, (state, action) => {
+        state.coachesData = state.coachesData.map((coach) => {
+          return coach.id === action.meta.arg.coachId ? action.payload : coach;
+        });
+      })
+      .addCase(updateGuestToCoach.fulfilled, (state, action) => {
         state.coachesData = state.coachesData.map((coach) => {
           return coach.id === action.meta.arg.coachId ? action.payload : coach;
         });

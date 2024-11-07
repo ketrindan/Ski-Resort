@@ -1,4 +1,4 @@
-import { openDeleteGuestPopup, openDeleteCoachPopup, openDeleteSkiPassPopup } from "~features/popup/popupSlice";
+import { openDeleteGuestPopup, openDeleteCoachPopup, openDeleteSkiPassPopup, openEditGuestPopup } from "~features/popup/popupSlice";
 import { CardMenuItem } from "~shared/menu/api";
 
 export const guestMenuItems: CardMenuItem[] = [
@@ -10,7 +10,7 @@ export const guestMenuItems: CardMenuItem[] = [
   {
     id: "1",
     text: "Редактировать",
-    callback: openDeleteGuestPopup(),
+    callback: openEditGuestPopup(),
   },
   {
     id: "2",

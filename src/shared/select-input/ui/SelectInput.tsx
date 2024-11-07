@@ -12,6 +12,7 @@ interface ISelectInputProps {
   empty?: boolean;
   defaultValue?: string;
   options: React.ReactNode;
+  render?: (id: string) => JSX.Element | undefined;
 }
 
 const SelectInput: FC<ISelectInputProps> = ({
@@ -20,6 +21,7 @@ const SelectInput: FC<ISelectInputProps> = ({
   options,
   empty = false,
   defaultValue,
+  render,
 }) => {
   const { control } = useFormContext();
   return (
@@ -42,6 +44,7 @@ const SelectInput: FC<ISelectInputProps> = ({
               variant="filled"
               fullWidth
               className={styles.select}
+              renderValue={render ? (selected) => render(selected) : undefined}
             >
               {options}
             </Select>
