@@ -3,6 +3,10 @@ import { TGuest } from "~entities/guest/guestSlice";
 import { defaultMockManager } from "../mock-manager";
 
 export const guestHandlers = [
+  http.get("https://ski-resort/guest/all", async () => {
+    return HttpResponse.json(defaultMockManager.fetchAllGuests());
+  }),
+
   http.get("https://ski-resort/guest", async ({ request }) => {
     const url = new URL(request.url);
     const page = Number(url.searchParams.get("page"));

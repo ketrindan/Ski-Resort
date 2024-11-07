@@ -11,12 +11,14 @@ import {
 } from "~features/popup/popupSlice";
 import {
   addGuestToCoach,
+  fetchAllCoaches,
   removeGuestFromCoach,
   updateGuestToCoach,
 } from "~entities/coach/coachSlice";
 import { editGuest, setChosenGuest, TGuest } from "~entities/guest/guestSlice";
 import {
   addGuestToSkipass,
+  fetchAllSkipasses,
   removeGuestFromSkipass,
   updateGuestToSkipass,
 } from "~entities/skipass/skipassSlice";
@@ -61,8 +63,13 @@ export const EditGuest: FC = () => {
   }, [guest.coachId, guest.skiPassId]);
 
   // temp
-  const coaches = useAppSelector((state) => state.coaches.coachesData);
-  const skipasses = useAppSelector((state) => state.skipasses.skipassData);
+  const coaches = useAppSelector((state) => state.coaches.allCoaches);
+  const skipasses = useAppSelector((state) => state.skipasses.allSkipasses);
+
+  useEffect(() => {
+    dispatch(fetchAllCoaches());
+    dispatch(fetchAllSkipasses());
+  }, []);
 
   const dispatch = useAppDispatch();
 

@@ -9,6 +9,7 @@ export type TResponse = {
 };
 
 interface skipassState {
+  allSkipasses: Skipass[];
   skipassData: Skipass[];
   status: Status;
   error?: string | null;
@@ -17,12 +18,21 @@ interface skipassState {
 }
 
 const initialState: skipassState = {
+  allSkipasses: [],
   skipassData: [],
   status: Status.idle,
   error: null,
   pages: 0,
   chosenSkipass: null,
 };
+
+export const fetchAllSkipasses = createAsyncThunk(
+  "skipasses/fetchAllSkipasses",
+  async () => {
+    const res = await axios.get<Skipass[]>(`/skipass/all`);
+    return res.data;
+  },
+);
 
 export const fetchSkipasses = createAsyncThunk(
   "skipasses/fetchSkipasses",
@@ -128,6 +138,9 @@ const skipassSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(fetchAllSkipasses.fulfilled, (state, action) => {
+        state.allSkipasses = action.payload;
+      })
       .addCase(fetchSkipasses.pending, (state) => {
         state.status = Status.loading;
       })

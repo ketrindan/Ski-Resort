@@ -3,6 +3,10 @@ import { Skipass } from "~entities/skipass";
 import { defaultMockManager } from "../mock-manager";
 
 export const skipassesHandlers = [
+  http.get("https://ski-resort/skipass/all", async () => {
+    return HttpResponse.json(defaultMockManager.fetchAllSkipasses());
+  }),
+
   http.get("https://ski-resort/skipass", async ({ request }) => {
     const url = new URL(request.url);
     const page = Number(url.searchParams.get("page"));

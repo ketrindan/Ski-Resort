@@ -23,6 +23,10 @@ export class mockManager {
     this.guests = data;
   }
 
+  fetchAllGuests() {
+    return this.guests;
+  }
+
   fetchGuests(page: number, size: number) {
     const data = this.guests?.slice(page * size, page * size + size);
 
@@ -141,6 +145,10 @@ export class mockManager {
     this.coaches = data;
   }
 
+  fetchAllCoaches() {
+    return this.coaches;
+  }
+
   fetchCoaches(page: number, size: number) {
     const data = this.coaches?.slice(page * size, page * size + size);
 
@@ -215,6 +223,10 @@ export class mockManager {
 
   updateSkipasses(data: Skipass[]) {
     this.skipasses = data;
+  }
+
+  fetchAllSkipasses() {
+    return this.skipasses;
   }
 
   fetchSkipasses(page: number, size: number) {

@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import MenuItem from "@mui/material/MenuItem";
 import dayjs from "dayjs";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
@@ -10,7 +10,11 @@ import {
   openConfirmCoachPopup,
 } from "~features/popup/popupSlice";
 import { addNewCoach, setChosenCoach } from "~entities/coach/coachSlice";
-import { addCoachToGuest, TGuest } from "~entities/guest/guestSlice";
+import {
+  addCoachToGuest,
+  fetchAllGuests,
+  TGuest,
+} from "~entities/guest/guestSlice";
 import { DateInput } from "~shared/date-input";
 import { FormBox } from "~shared/form-box";
 import { ImageInput } from "~shared/image-input";
@@ -46,7 +50,11 @@ export const AddCoach: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   // temp
-  const guests = useAppSelector((state) => state.guests.guestsData);
+  const guests = useAppSelector((state) => state.guests.allGuests);
+
+  useEffect(() => {
+    dispatch(fetchAllGuests());
+  }, []);
 
   const dispatch = useAppDispatch();
 

@@ -19,6 +19,7 @@ export type TResponse = {
 };
 
 interface guestState {
+  allGuests: TGuest[];
   guestsData: TGuest[];
   status: Status;
   error?: string | null;
@@ -27,12 +28,21 @@ interface guestState {
 }
 
 const initialState: guestState = {
+  allGuests: [],
   guestsData: [],
   status: Status.idle,
   error: null,
   pages: 0,
   chosenGuest: null,
 };
+
+export const fetchAllGuests = createAsyncThunk(
+  "guests/fetchAllGuests",
+  async () => {
+    const res = await axios.get<TGuest[]>(`/guest/all`);
+    return res.data;
+  },
+);
 
 export const fetchGuests = createAsyncThunk(
   "guests/fetchGuests",
@@ -117,6 +127,9 @@ const guestSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(fetchAllGuests.fulfilled, (state, action) => {
+        state.allGuests = action.payload;
+      })
       .addCase(fetchGuests.pending, (state) => {
         state.status = Status.loading;
       })

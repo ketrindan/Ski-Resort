@@ -20,6 +20,7 @@ export type TResponse = {
 };
 
 interface coachState {
+  allCoaches: TCoach[];
   coachesData: TCoach[];
   status: Status;
   error?: string | null;
@@ -28,12 +29,21 @@ interface coachState {
 }
 
 const initialState: coachState = {
+  allCoaches: [],
   coachesData: [],
   status: Status.idle,
   error: null,
   pages: 0,
   chosenCoach: null,
 };
+
+export const fetchAllCoaches = createAsyncThunk(
+  "coaches/fetchAllCoaches",
+  async () => {
+    const res = await axios.get<TCoach[]>(`/coach/all`);
+    return res.data;
+  },
+);
 
 export const fetchCoaches = createAsyncThunk(
   "coaches/fetchCoaches",
@@ -125,6 +135,9 @@ const coachSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(fetchAllCoaches.fulfilled, (state, action) => {
+        state.allCoaches = action.payload;
+      })
       .addCase(fetchCoaches.pending, (state) => {
         state.status = Status.loading;
       })

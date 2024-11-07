@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import MenuItem from "@mui/material/MenuItem";
 import dayjs from "dayjs";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
@@ -9,9 +9,12 @@ import {
   closeAddGuestPopup,
   openConfirmGuestPopup,
 } from "~features/popup/popupSlice";
-import { addGuestToCoach } from "~entities/coach/coachSlice";
+import { addGuestToCoach, fetchAllCoaches } from "~entities/coach/coachSlice";
 import { addNewGuest, setChosenGuest } from "~entities/guest/guestSlice";
-import { addGuestToSkipass } from "~entities/skipass/skipassSlice";
+import {
+  addGuestToSkipass,
+  fetchAllSkipasses,
+} from "~entities/skipass/skipassSlice";
 import { AvatarItem } from "~shared/avatar-item";
 import { DateInput } from "~shared/date-input";
 import { FormBox } from "~shared/form-box";
@@ -43,8 +46,8 @@ export const AddGuest: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   // temp
-  const coaches = useAppSelector((state) => state.coaches.coachesData);
-  const skipasses = useAppSelector((state) => state.skipasses.skipassData);
+  const coaches = useAppSelector((state) => state.coaches.allCoaches);
+  const skipasses = useAppSelector((state) => state.skipasses.allSkipasses);
 
   const dispatch = useAppDispatch();
 
@@ -55,6 +58,11 @@ export const AddGuest: FC = () => {
   });
 
   const { handleSubmit, formState } = methods;
+
+  useEffect(() => {
+    dispatch(fetchAllCoaches());
+    dispatch(fetchAllSkipasses());
+  }, []);
 
   const createGuest = (data: TFormData, birthDate: string) => {
     return dispatch(

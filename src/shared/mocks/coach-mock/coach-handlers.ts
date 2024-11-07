@@ -11,6 +11,10 @@ export const coachHandlers = [
     return HttpResponse.json(defaultMockManager.fetchCoaches(page, size));
   }),
 
+  http.get("https://ski-resort/coach/all", async () => {
+    return HttpResponse.json(defaultMockManager.fetchAllCoaches());
+  }),
+
   http.post("https://ski-resort/coach", async ({ request }) => {
     const newCoachData = (await request.json()) as TCoach;
 
