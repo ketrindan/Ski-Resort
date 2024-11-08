@@ -9,6 +9,7 @@ export const coaches: TCoach[] = [
     name: "Светлана",
     surname: "Иванова",
     category: "Сноуборд. Опыт 10 лет.",
+    sex: "ж",
     photo: photo1,
     guests: [],
   },

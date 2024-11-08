@@ -102,6 +102,19 @@ export class mockManager {
     return guest;
   }
 
+  removeCoachFromGuest(guestId: string) {
+    const guest = this.guests.find((guest) => guest.id === guestId) as TGuest;
+
+    if (guest) {
+      guest.coachId = undefined;
+      guest.coachNameSurname = undefined;
+      guest.coachCategory = undefined;
+      guest.coachSex = undefined;
+    }
+
+    return guest;
+  }
+
   editGuest(guestId: string, data: TGuest) {
     const guest = this.guests.find((guest) => guest.id === guestId) as TGuest;
     const skipass = this.skipasses.find(
@@ -109,11 +122,8 @@ export class mockManager {
     );
 
     const updatedGuest: TGuest = {
-      id: guest.id,
-      name: data.name,
-      surname: data.surname,
-      birthDate: data.birthDate,
-      skiPassId: data.skiPassId,
+      ...guest,
+      ...data,
       skiPassCost: skipass?.cost,
       skiPassDuration: skipass?.duration,
     };
@@ -212,6 +222,28 @@ export class mockManager {
     }
 
     return coach;
+  }
+
+  editCoach(coachId: string, data: TCoach) {
+    const coach = this.coaches.find((coach) => coach.id === coachId);
+
+    const updatedCoach: TCoach = {
+      ...coach,
+      ...data,
+    };
+
+    if (updatedCoach.guests.length > 0) {
+      updatedCoach.guests.forEach((guest) => {
+        guest.coachNameSurname = `${updatedCoach?.name} ${updatedCoach?.surname}`;
+        guest.coachCategory = updatedCoach.category;
+      });
+    }
+
+    this.coaches = this.coaches.map((coach) => {
+      return coach.id === coachId ? updatedCoach : coach;
+    });
+
+    return updatedCoach;
   }
 
   deleteCoach(id: string) {

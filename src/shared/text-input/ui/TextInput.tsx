@@ -7,9 +7,10 @@ import styles from "./TextInput.module.css";
 interface ITextInputProps {
   name: string;
   label: string;
+  disabled?: boolean;
 }
 
-const TextInput: FC<ITextInputProps> = ({ name, label }) => {
+const TextInput: FC<ITextInputProps> = ({ name, label, disabled }) => {
   const { control } = useFormContext();
   return (
     <Controller
@@ -32,6 +33,7 @@ const TextInput: FC<ITextInputProps> = ({ name, label }) => {
             size="small"
             InputProps={{ disableUnderline: true }}
             className={styles.input}
+            disabled={disabled}
           />
           <InputError message={error?.message as string} />
         </>

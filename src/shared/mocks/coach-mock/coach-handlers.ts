@@ -23,10 +23,21 @@ export const coachHandlers = [
 
   http.delete("https://ski-resort/coach/:id", async ({ params }) => {
     const { id } = params;
-    console.log(id);
 
     return HttpResponse.json(defaultMockManager.deleteCoach(id as string));
   }),
+
+  http.patch(
+    "https://ski-resort/coach/edit/:coachId",
+    async ({ params, request }) => {
+      const { coachId } = params;
+      const updatedCoachData = (await request.json()) as TCoach;
+
+      return HttpResponse.json(
+        defaultMockManager.editCoach(coachId as string, updatedCoachData),
+      );
+    },
+  ),
 
   http.put(
     "https://ski-resort/coach/:coachId/guest/:guestId",

@@ -55,14 +55,22 @@ export const guestHandlers = [
     },
   ),
 
+  http.delete("https://ski-resort/guest/:guestId/coach", async ({ params }) => {
+    const { guestId } = params;
+
+    return HttpResponse.json(
+      defaultMockManager.removeCoachFromGuest(guestId as string),
+    );
+  }),
+
   http.patch(
     "https://ski-resort/guest/edit/:guestId",
     async ({ request, params }) => {
-      const newGuestData = (await request.json()) as TGuest;
+      const updatedGuestData = (await request.json()) as TGuest;
       const { guestId } = params;
 
       return HttpResponse.json(
-        defaultMockManager.editGuest(guestId as string, newGuestData),
+        defaultMockManager.editGuest(guestId as string, updatedGuestData),
       );
     },
   ),

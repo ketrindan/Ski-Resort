@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import {
   closeConfirmCoachPopup,
   openDeleteCoachPopup,
+  openEditCoachPopup,
 } from "~features/popup/popupSlice";
 import { clearChosenCoach } from "~entities/coach/coachSlice";
 import { ActionButtons } from "~shared/action-buttons";
@@ -30,7 +31,10 @@ const ConfirmCoachPopup: FC = () => {
       }}
       headerButton={
         <ActionButtons
-          onEditClick={() => console.log("edit")}
+          onEditClick={() => {
+            dispatch(closeConfirmCoachPopup());
+            dispatch(openEditCoachPopup());
+          }}
           onDeleteClick={() => {
             dispatch(closeConfirmCoachPopup());
             dispatch(openDeleteCoachPopup());

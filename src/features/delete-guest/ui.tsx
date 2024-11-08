@@ -9,14 +9,11 @@ import { ModalButton } from "~shared/modal-button";
 import { PersonCard } from "~shared/person-card";
 
 export const DeleteGuest: FC = () => {
-  const data = useAppSelector((state) => state.guests.chosenGuest);
-  const guests = useAppSelector((state) => state.guests.guestsData);
+  const guest = useAppSelector((state) => state.guests.chosenGuest);
 
   const dispatch = useAppDispatch();
 
   const onDeleteClick = (guestId: string) => {
-    const guest = guests.find((guest) => guest.id === guestId);
-
     if (guest && guest.coachId) {
       dispatch(removeGuestFromCoach({ guestId, coachId: guest.coachId }));
     }
@@ -30,13 +27,13 @@ export const DeleteGuest: FC = () => {
 
   return (
     <>
-      {data ? (
+      {guest ? (
         <>
           <PersonCard
-            name={`${data.name} ${data?.surname}`}
+            name={`${guest.name} ${guest?.surname}`}
             sport={
-              data.coachNameSurname
-                ? `Тренер: ${data.coachNameSurname}`
+              guest.coachNameSurname
+                ? `Тренер: ${guest.coachNameSurname}`
                 : "Гость"
             }
           />
@@ -44,7 +41,7 @@ export const DeleteGuest: FC = () => {
           <ModalButton
             btnText="Ок"
             onClick={() => {
-              data.id && onDeleteClick(data.id);
+              guest.id && onDeleteClick(guest.id);
               dispatch(closeDeleteGuestPopup());
               dispatch(clearChosenGuest());
             }}

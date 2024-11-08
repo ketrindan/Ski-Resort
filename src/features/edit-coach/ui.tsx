@@ -1,36 +1,27 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import MenuItem from "@mui/material/MenuItem";
 import dayjs from "dayjs";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import {
-  closeAddCoachPopup,
+  closeEditCoachPopup,
   openConfirmCoachPopup,
 } from "~features/popup/popupSlice";
-import { addNewCoach, setChosenCoach } from "~entities/coach/coachSlice";
-import {
-  addCoachToGuest,
-  fetchAllGuests,
-  TGuest,
-} from "~entities/guest/guestSlice";
+import { editCoach, setChosenCoach, TCoach } from "~entities/coach/coachSlice";
+import { editGuest } from "~entities/guest/guestSlice";
 import { DateInput } from "~shared/date-input";
 import { FormBox } from "~shared/form-box";
 import { ImageInput } from "~shared/image-input";
-import { convertAge } from "~shared/lib/convertAge";
 import { ModalButton } from "~shared/modal-button";
-import { PersonInfo } from "~shared/person-info";
-import { SelectInput } from "~shared/select-input";
 import { TextInput } from "~shared/text-input";
 
 export type TFormData = {
   photo?: string;
   name: string;
   surname: string;
-  birthDate: Date;
+  birthDate: string;
   gender?: string;
-  guestId?: string;
   sport: string;
 };
 
@@ -39,22 +30,16 @@ const schema = yup
     photo: yup.string(),
     name: yup.string().min(2, "Минимальная длина 2 символа").required(),
     surname: yup.string().min(2, "Минимальная длина 2 символа").required(),
-    birthDate: yup.date().required(),
+    birthDate: yup.string().required(),
     gender: yup.string().matches(/(^м$|^ж$)/, `Возможные значения "м" и "ж"`),
-    guestId: yup.string(),
     sport: yup.string().required(),
   })
   .required();
 
-export const AddCoach: FC = () => {
+export const EditCoach: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
-  // temp
-  const guests = useAppSelector((state) => state.guests.allGuests);
-
-  useEffect(() => {
-    dispatch(fetchAllGuests());
-  }, []);
+  const coach = useAppSelector((state) => state.coaches.chosenCoach) as TCoach;
 
   const dispatch = useAppDispatch();
 
@@ -62,41 +47,56 @@ export const AddCoach: FC = () => {
     mode: "onChange",
     reValidateMode: "onChange",
     resolver: yupResolver(schema),
+    defaultValues: {
+      // photo: coach.photo,
+      name: coach.name,
+      surname: coach?.surname,
+      birthDate: dayjs(coach.birthDate, "DD.MM.YYYY") as unknown as string,
+      gender: coach.sex,
+      sport: coach.category,
+    },
   });
 
   const { handleSubmit, formState } = methods;
 
-  function onSubmit(data: TFormData) {
-    setLoading(true);
-    const birthDate = dayjs(data.birthDate).format("DD.MM.YYYY");
-    const guestList: TGuest[] = [];
-
-    if (data.guestId !== undefined) {
-      guestList.push(
-        guests.find((guest) => guest.id === data.guestId) as TGuest,
-      );
+  const updateGuests = () => {
+    if (coach.guests.length > 0) {
+      coach.guests.forEach((guest) => {
+        return dispatch(
+          editGuest({
+            guestId: guest.id as string,
+            data: {
+              ...guest,
+              coachNameSurname: `${coach?.name} ${coach?.surname}`,
+              coachSex: coach.sex,
+              coachCategory: coach.category,
+            },
+          }),
+        );
+      });
     }
+  };
 
+  const updateCoach = (data: TFormData, birthDate: string) => {
+    const newData = {
+      photo: data.photo,
+      name: data.name,
+      surname: data.surname,
+      birthDate: birthDate,
+      gender: data.gender,
+      category: data.sport,
+      guests: coach.guests,
+    };
     return dispatch(
-      addNewCoach({
-        name: data.name,
-        surname: data.surname,
-        birthDate: birthDate,
-        sex: data.gender,
-        category: data.sport,
-        guests: guestList,
+      editCoach({
+        coachId: coach.id as string,
+        data: newData,
       }),
     )
       .unwrap()
       .then((coach) => {
-        dispatch(closeAddCoachPopup());
-        data.guestId &&
-          dispatch(
-            addCoachToGuest({
-              guestId: data.guestId,
-              coachId: coach.id as string,
-            }),
-          );
+        dispatch(closeEditCoachPopup());
+        updateGuests();
         coach && dispatch(setChosenCoach(coach));
       })
       .then(() => {
@@ -108,6 +108,13 @@ export const AddCoach: FC = () => {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  function onSubmit(data: TFormData) {
+    setLoading(true);
+    const birthDate = dayjs(data.birthDate).format("DD.MM.YYYY");
+
+    updateCoach(data, birthDate);
   }
 
   return (
@@ -117,23 +124,15 @@ export const AddCoach: FC = () => {
         <TextInput name="name" label="Имя" />
         <TextInput name="surname" label="Фамилия" />
         <DateInput name="birthDate" label="Дата рождения" />
-        <TextInput name="gender" label="Пол" />
-        <SelectInput
-          name="guestId"
-          label="Назначить посетителя"
-          options={guests.map((person) => (
-            <MenuItem key={person.id} value={person.id}>
-              <PersonInfo
-                title={`${person.name} ${person.surname}`}
-                subtitle={convertAge(person.birthDate)}
-              />
-            </MenuItem>
-          ))}
+        <TextInput
+          name="gender"
+          label="Пол"
+          disabled={formState.defaultValues?.gender !== undefined}
         />
         <TextInput name="sport" label="Вид спорта" />
         <ModalButton
-          btnText="Добавить"
-          disabled={!formState.isValid || loading}
+          btnText="Сохранить"
+          disabled={!formState.isValid || loading || !formState.isDirty}
         />
       </FormBox>
     </FormProvider>

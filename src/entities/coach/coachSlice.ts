@@ -114,10 +114,9 @@ export const deleteCoach = createAsyncThunk(
 );
 
 export const editCoach = createAsyncThunk(
-  "coaches/edit",
-  async ({ id, data }: { id: string; data: TCoach }) => {
-    const res = await axios.patch<TCoach>(`/coach/edit/${id}`, data);
-    console.log(res.data);
+  "coaches/editCoach",
+  async ({ coachId, data }: { coachId: string; data: TCoach }) => {
+    const res = await axios.patch<TCoach>(`/coach/edit/${coachId}`, data);
     return res.data;
   },
 );
@@ -175,7 +174,7 @@ const coachSlice = createSlice({
       })
       .addCase(editCoach.fulfilled, (state, action) => {
         state.coachesData = state.coachesData.map((coach) => {
-          return coach.id === action.meta.arg.id ? action.payload : coach;
+          return coach.id === action.meta.arg.coachId ? action.payload : coach;
         });
       });
   },

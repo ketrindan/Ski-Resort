@@ -106,8 +106,24 @@ export const addSkipassToGuest = createAsyncThunk(
   },
 );
 
+export const removeCoachFromGuest = createAsyncThunk(
+  "coaches/removeCoachFromGuest",
+  async ({ guestId }: { guestId: string | unknown }) => {
+    const res = await axios.delete<TGuest>(`/guest/${guestId}/coach`);
+    return res.data;
+  },
+);
+
+export const removeSkipassFromGuest = createAsyncThunk(
+  "coaches/removeSkipassFromGuest",
+  async ({ guestId }: { guestId: string | unknown }) => {
+    const res = await axios.delete<TGuest>(`/guest/${guestId}/skipass`);
+    return res.data;
+  },
+);
+
 export const editGuest = createAsyncThunk(
-  "guests/edit",
+  "guests/editGuest",
   async ({ guestId, data }: { guestId: string; data: TGuest }) => {
     const res = await axios.patch<TGuest>(`/guest/edit/${guestId}`, data);
     return res.data;
@@ -156,6 +172,16 @@ const guestSlice = createSlice({
         });
       })
       .addCase(addSkipassToGuest.fulfilled, (state, action) => {
+        state.guestsData = state.guestsData.map((guest) => {
+          return guest.id === action.meta.arg.guestId ? action.payload : guest;
+        });
+      })
+      .addCase(removeCoachFromGuest.fulfilled, (state, action) => {
+        state.guestsData = state.guestsData.map((guest) => {
+          return guest.id === action.meta.arg.guestId ? action.payload : guest;
+        });
+      })
+      .addCase(removeSkipassFromGuest.fulfilled, (state, action) => {
         state.guestsData = state.guestsData.map((guest) => {
           return guest.id === action.meta.arg.guestId ? action.payload : guest;
         });

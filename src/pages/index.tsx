@@ -10,7 +10,8 @@ import { ConfirmSkipassPopup } from "~widgets/confirmSkipass-popup";
 import { DeleteCoachPopup } from "~widgets/deleteCoach-popup";
 import { DeleteGuestPopup } from "~widgets/deleteGuest-popup";
 import { DeleteSkipassPopup } from "~widgets/deleteSkipass-popup";
-import { EditGuestPopup } from "~widgets/editGuestPopup";
+import { EditCoachPopup } from "~widgets/editCoach-Popup";
+import { EditGuestPopup } from "~widgets/editGuest-popup";
 import { ErrorPopup } from "~widgets/error-popup";
 import { ProtectedRoute } from "~shared/protected-route";
 import { routes } from "../shared/lib/routes-names";
@@ -49,6 +50,7 @@ export const Routing = () => {
       <AddCoachPopup />
       <AddSkiPassPopup />
       <EditGuestPopup />
+      <EditCoachPopup />
       <ConfirmGuestPopup />
       <ConfirmCoachPopup />
       <ConfirmSkipassPopup />
