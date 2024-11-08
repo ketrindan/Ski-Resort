@@ -61,6 +61,18 @@ export const skipassesHandlers = [
     },
   ),
 
+  http.patch(
+    "https://ski-resort/skipass/edit/:id",
+    async ({ params, request }) => {
+      const { id } = params;
+      const updatedSkipassData = (await request.json()) as Skipass;
+
+      return HttpResponse.json(
+        defaultMockManager.editSkipass(id as string, updatedSkipassData),
+      );
+    },
+  ),
+
   http.delete(
     "https://ski-resort/skipass/:skipassId/guest/:guestId",
     async ({ params }) => {

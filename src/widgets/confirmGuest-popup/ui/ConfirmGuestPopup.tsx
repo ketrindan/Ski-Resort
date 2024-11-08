@@ -46,7 +46,10 @@ const ConfirmGuestPopup: FC = () => {
         <>
           <PersonCard name={`${data.name} ${data?.surname}`} />
           <CardInfo title="Дата рождения" subtitle={data.birthDate} />
-          <CardInfo title="Номер ски-пасса" subtitle={data.skiPassId || "-"} />
+          <CardInfo
+            title="Действие ски-пасса"
+            subtitle={data.skiPassDuration || "-"}
+          />
           <CardInfo
             title="Назначенный тренер"
             subtitle={data.coachNameSurname || "-"}

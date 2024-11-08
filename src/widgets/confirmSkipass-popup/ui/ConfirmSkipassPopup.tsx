@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import {
   closeConfirmSkiPassPopup,
   openDeleteSkiPassPopup,
+  openEditSkiPassPopup,
 } from "~features/popup/popupSlice";
 import { clearChosenSkipass } from "~entities/skipass/skipassSlice";
 import { ActionButtons } from "~shared/action-buttons";
@@ -30,7 +31,10 @@ const ConfirmSkipassPopup: FC = () => {
       }}
       headerButton={
         <ActionButtons
-          onEditClick={() => console.log("edit")}
+          onEditClick={() => {
+            dispatch(closeConfirmSkiPassPopup());
+            dispatch(openEditSkiPassPopup());
+          }}
           onDeleteClick={() => {
             dispatch(closeConfirmSkiPassPopup());
             dispatch(openDeleteSkiPassPopup());
@@ -40,7 +44,7 @@ const ConfirmSkipassPopup: FC = () => {
     >
       {data ? (
         <>
-          <SkipassCard id={data.id ?? ""} />
+          <SkipassCard name={data.name ?? ""} />
           <CardInfo title="Время действия" subtitle={data.duration} />
           <CardInfo title="Цена" subtitle={data.cost} />
           <CardInfo

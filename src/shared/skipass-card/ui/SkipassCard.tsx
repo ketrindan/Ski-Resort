@@ -5,17 +5,17 @@ import { AvatarItem } from "~shared/avatar-item";
 import styles from "./SkipassCard.module.css";
 
 interface ISkipassCard {
-  id: string;
+  name: string;
   img?: string;
 }
 
-const PersonCard: FC<ISkipassCard> = ({ id, img }) => {
+const SkipassCard: FC<ISkipassCard> = ({ name, img }) => {
   return (
     <Box className={styles.card}>
       <AvatarItem photo={img} variant="rounded" />
-      <Typography className={styles.number}>{id}</Typography>
+      <Typography className={styles.number}>{name}</Typography>
     </Box>
   );
 };
 
-export default PersonCard;
+export default SkipassCard;

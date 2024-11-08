@@ -114,6 +114,7 @@ const MainPage = () => {
             {skipasses.map((skipass) => (
               <SkipassItem
                 key={skipass.id}
+                name={skipass.name}
                 cost={skipass.cost}
                 duration={skipass.duration}
                 menuItems={skipassMenuItems}

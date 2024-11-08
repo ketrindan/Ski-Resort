@@ -115,6 +115,18 @@ export class mockManager {
     return guest;
   }
 
+  removeSkipassFromGuest(guestId: string) {
+    const guest = this.guests.find((guest) => guest.id === guestId) as TGuest;
+
+    if (guest) {
+      guest.skiPassCost = undefined;
+      guest.skiPassDuration = undefined;
+      guest.skiPassId = undefined;
+    }
+
+    return guest;
+  }
+
   editGuest(guestId: string, data: TGuest) {
     const guest = this.guests.find((guest) => guest.id === guestId) as TGuest;
     const skipass = this.skipasses.find(
@@ -278,6 +290,7 @@ export class mockManager {
   addSkipass(data: Skipass) {
     const newSkipass: Skipass = {
       id: uuidv4(),
+      name: data.name,
       cost: data.cost,
       duration: data.duration,
       agents: data.agents,
@@ -325,6 +338,28 @@ export class mockManager {
 
   getSkipass(id: string) {
     return this.skipasses.find((skipass) => skipass.id === id);
+  }
+
+  editSkipass(id: string, data: Skipass) {
+    const skipass = this.skipasses.find((skipass) => skipass.id === id);
+
+    const updatedSkipass: Skipass = {
+      ...skipass,
+      ...data,
+    };
+
+    if (updatedSkipass.agents.length > 0) {
+      updatedSkipass.agents.forEach((guest) => {
+        guest.skiPassCost = updatedSkipass.cost;
+        guest.skiPassDuration = updatedSkipass.duration;
+      });
+    }
+
+    this.skipasses = this.skipasses.map((skipass) => {
+      return skipass.id === id ? updatedSkipass : skipass;
+    });
+
+    return updatedSkipass;
   }
 
   deleteSkipass(id: string) {

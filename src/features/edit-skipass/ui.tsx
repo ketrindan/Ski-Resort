@@ -1,30 +1,20 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import MenuItem from "@mui/material/MenuItem";
 import dayjs from "dayjs";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import {
-  closeAddSkiPassPopup,
+  closeEditSkiPassPopup,
   openConfirmSkiPassPopup,
 } from "~features/popup/popupSlice";
-import {
-  addSkipassToGuest,
-  fetchAllGuests,
-  TGuest,
-} from "~entities/guest/guestSlice";
-import {
-  addNewSkipass,
-  setChosenSkipass,
-} from "~entities/skipass/skipassSlice";
+import { editGuest } from "~entities/guest/guestSlice";
+import { Skipass } from "~entities/skipass";
+import { editSkipass, setChosenSkipass } from "~entities/skipass/skipassSlice";
 import { AvatarItem } from "~shared/avatar-item";
 import { DateInput } from "~shared/date-input";
 import { FormBox } from "~shared/form-box";
-import { convertAge } from "~shared/lib/convertAge";
 import { ModalButton } from "~shared/modal-button";
-import { PersonInfo } from "~shared/person-info";
-import { SelectInput } from "~shared/select-input";
 import { TextInput } from "~shared/text-input";
 
 export type TFormData = {
@@ -32,7 +22,6 @@ export type TFormData = {
   durationStart: Date;
   durationEnd: Date;
   cost: number;
-  guestId?: string;
 };
 
 const schema = yup
@@ -47,19 +36,15 @@ const schema = yup
         "Конец срока действия не должен быть раньше начала действия",
       ),
     cost: yup.number().positive().integer().required(),
-    guestId: yup.string(),
   })
   .required();
 
-export const AddSkiPass: FC = () => {
+export const EditSkiPass: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
-  // temp
-  const guests = useAppSelector((state) => state.guests.allGuests);
-
-  useEffect(() => {
-    dispatch(fetchAllGuests());
-  }, []);
+  const skipass = useAppSelector(
+    (state) => state.skipasses.chosenSkipass,
+  ) as Skipass;
 
   const dispatch = useAppDispatch();
 
@@ -67,41 +52,60 @@ export const AddSkiPass: FC = () => {
     mode: "onChange",
     reValidateMode: "onChange",
     resolver: yupResolver(schema),
+    defaultValues: {
+      name: skipass.name,
+      durationStart: dayjs(
+        skipass.duration.split(" - ")[0],
+        "DD.MM.YYYY HH:mm",
+      ) as unknown as Date,
+      durationEnd: dayjs(
+        skipass.duration.split(" - ")[1],
+        "DD.MM.YYYY HH:mm",
+      ) as unknown as Date,
+      cost: skipass.cost,
+    },
   });
 
   const { handleSubmit, formState } = methods;
 
-  function onSubmit(data: TFormData) {
-    dispatch(closeAddSkiPassPopup());
-    setLoading(true);
-    const startDate = dayjs(data.durationStart).format("DD.MM.YYYY HH:mm");
-    const endDate = dayjs(data.durationEnd).format("DD.MM.YYYY HH:mm");
-    const guestList: TGuest[] = [];
-
-    if (data.guestId !== undefined) {
-      guestList.push(
-        guests.find((guest) => guest.id === data.guestId) as TGuest,
-      );
+  const updateGuests = (startDate: string, endDate: string) => {
+    if (skipass.agents.length > 0) {
+      skipass.agents.forEach((guest) => {
+        return dispatch(
+          editGuest({
+            guestId: guest.id as string,
+            data: {
+              ...guest,
+              skiPassCost: skipass.cost,
+              skiPassDuration: `${startDate}-${endDate}`,
+            },
+          }),
+        );
+      });
     }
+  };
 
+  const updateSkipass = (
+    data: TFormData,
+    startDate: string,
+    endDate: string,
+  ) => {
+    const newData = {
+      name: data.name,
+      cost: data.cost,
+      duration: `${startDate}-${endDate}`,
+      agents: skipass.agents,
+    };
     return dispatch(
-      addNewSkipass({
-        name: data.name,
-        cost: data.cost,
-        duration: `${startDate} - ${endDate}`,
-        agents: guestList,
+      editSkipass({
+        id: skipass.id as string,
+        data: newData,
       }),
     )
       .unwrap()
       .then((skipass) => {
-        dispatch(closeAddSkiPassPopup());
-        data.guestId &&
-          dispatch(
-            addSkipassToGuest({
-              guestId: data.guestId,
-              skiPassId: skipass.id as string,
-            }),
-          );
+        dispatch(closeEditSkiPassPopup());
+        updateGuests(startDate, endDate);
         skipass && dispatch(setChosenSkipass(skipass));
       })
       .then(() => {
@@ -113,6 +117,14 @@ export const AddSkiPass: FC = () => {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  function onSubmit(data: TFormData) {
+    setLoading(true);
+    const startDate = dayjs(data.durationStart).format("DD.MM.YYYY HH:mm");
+    const endDate = dayjs(data.durationEnd).format("DD.MM.YYYY HH:mm");
+
+    updateSkipass(data, startDate, endDate);
   }
 
   return (
@@ -127,21 +139,9 @@ export const AddSkiPass: FC = () => {
         />
         <DateInput name="durationEnd" label="Конец действия" withTime={true} />
         <TextInput name="cost" label="Цена" />
-        <SelectInput
-          name="guestId"
-          label="Назначить посетителя"
-          options={guests.map((person) => (
-            <MenuItem key={person.id} value={person.id}>
-              <PersonInfo
-                title={`${person.name} ${person.surname}`}
-                subtitle={convertAge(person.birthDate)}
-              />
-            </MenuItem>
-          ))}
-        />
         <ModalButton
-          btnText="Добавить"
-          disabled={!formState.isValid || loading}
+          btnText="Сохранить"
+          disabled={!formState.isValid || loading || !formState.isDirty}
         />
       </FormBox>
     </FormProvider>

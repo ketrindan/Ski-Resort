@@ -9,13 +9,20 @@ import { CardMenuItem } from "~shared/menu/api";
 import { SkipasInfo } from "~shared/skipass-info";
 import styles from "./SkipassItem.module.css";
 interface ISkipass {
+  name: string;
   cost: number;
   duration: string;
   menuItems: CardMenuItem[];
   getData?: AnyAction;
 }
 
-const SkipassItem: FC<ISkipass> = ({ cost, duration, menuItems, getData }) => {
+const SkipassItem: FC<ISkipass> = ({
+  name,
+  cost,
+  duration,
+  menuItems,
+  getData,
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
 
@@ -30,9 +37,8 @@ const SkipassItem: FC<ISkipass> = ({ cost, duration, menuItems, getData }) => {
   };
 
   const setClass = () => {
-    const name = duration.toLowerCase().split(" ")[0];
     let className: string;
-    switch (name) {
+    switch (name.toLowerCase()) {
       case "дневной":
         className = `${styles.box} ${styles.box_day}`;
         break;
@@ -51,7 +57,7 @@ const SkipassItem: FC<ISkipass> = ({ cost, duration, menuItems, getData }) => {
 
   return (
     <Box className={setClass()}>
-      <SkipasInfo duration={duration} cost={cost} />
+      <SkipasInfo name={name} duration={duration} cost={cost} />
       {isAdminMode && (
         <IconButton
           size="large"

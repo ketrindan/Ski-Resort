@@ -110,6 +110,7 @@ export const EditGuest: FC = () => {
     return (
       skipass && (
         <SkipasInfo
+          name={skipass.name}
           duration={skipass.duration}
           cost={skipass.cost}
           isMenuOption
@@ -211,6 +212,7 @@ export const EditGuest: FC = () => {
           options={skipasses.map((skipass) => (
             <MenuItem key={skipass.id} value={skipass.id}>
               <SkipasInfo
+                name={skipass.name}
                 duration={skipass.duration}
                 cost={skipass.cost}
                 isMenuOption

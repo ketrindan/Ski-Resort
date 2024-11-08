@@ -4,16 +4,21 @@ import { FC } from "react";
 import styles from "./SkipassInfo.module.css";
 
 interface IOptionItem {
+  name: string;
   duration: string;
   cost: number;
   isMenuOption?: boolean;
 }
 
-const OptionItem: FC<IOptionItem> = ({ duration, cost, isMenuOption }) => {
+const OptionItem: FC<IOptionItem> = ({
+  name,
+  duration,
+  cost,
+  isMenuOption,
+}) => {
   const setClass = () => {
-    const name = duration.toLowerCase().split(" ")[0];
     let className: string;
-    switch (name) {
+    switch (name.toLowerCase()) {
       case "дневной":
         className = `${styles.box} ${styles.box_day}`;
         break;
@@ -34,7 +39,7 @@ const OptionItem: FC<IOptionItem> = ({ duration, cost, isMenuOption }) => {
     return (
       <Box className={setClass()}>
         <Typography className={`${styles.duration} ${styles.duration_menu}`}>
-          {duration}
+          {name} {duration}
         </Typography>
         <Typography className={`${styles.cost} ${styles.cost_menu}`}>
           {cost}
@@ -45,7 +50,9 @@ const OptionItem: FC<IOptionItem> = ({ duration, cost, isMenuOption }) => {
 
   return (
     <Box className={styles.info}>
-      <Typography className={styles.duration}>{duration}</Typography>
+      <Typography className={styles.duration}>
+        {name} {duration}
+      </Typography>
       <Typography className={styles.cost}>{cost} р</Typography>
     </Box>
   );

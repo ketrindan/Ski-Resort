@@ -117,6 +117,7 @@ export const AddGuest: FC = () => {
           options={skipasses.map((skipass) => (
             <MenuItem key={skipass.id} value={skipass.id}>
               <SkipasInfo
+                name={skipass.name}
                 duration={skipass.duration}
                 cost={skipass.cost}
                 isMenuOption

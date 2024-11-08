@@ -63,6 +63,17 @@ export const guestHandlers = [
     );
   }),
 
+  http.delete(
+    "https://ski-resort/guest/:guestId/skipass",
+    async ({ params }) => {
+      const { guestId } = params;
+
+      return HttpResponse.json(
+        defaultMockManager.removeSkipassFromGuest(guestId as string),
+      );
+    },
+  ),
+
   http.patch(
     "https://ski-resort/guest/edit/:guestId",
     async ({ request, params }) => {
