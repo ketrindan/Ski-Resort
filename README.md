@@ -21,9 +21,9 @@
 * Валидация yup
 * Моки MSW
 
-<!-- 
+
 ### **Ссылка на проект**
-[Проект на GitHub Pages](https://ketrindan.github.io/Stellar-Burgers/) -->
+[Проект на GitHub Pages](https://ketrindan.github.io/Ski-Resort/)
 
 ### **Инструкция по установке и сборке**
 1. Клонировать репозиторий
