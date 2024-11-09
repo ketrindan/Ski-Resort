@@ -1,5 +1,5 @@
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-// import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Box from "@mui/material/Box";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
@@ -39,7 +39,7 @@ const ListContainer: FC<IContainerListProps> = ({
       <Box className={styles.list_header}>
         <Typography className={styles.title}> {title} </Typography>
         {isAdminMode && actionButton}
-        {/* {main && <ExpandLessIcon className={styles.less_icon} />} */}
+        {main && <ExpandLessIcon className={styles.less_icon} />}
         {!main && (
           <Stack className={styles.stack}>
             <Pagination
