@@ -12,7 +12,11 @@ async function enableMocking() {
 
   const { worker } = await import("~shared/mocks/browser");
 
-  return worker.start();
+  return worker.start({
+    serviceWorker: {
+      url: "/Ski-Resort/mockServiceWorker.js",
+    },
+  });
 }
 
 const router = createHashRouter([
