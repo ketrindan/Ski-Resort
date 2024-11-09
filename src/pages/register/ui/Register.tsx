@@ -1,9 +1,9 @@
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { FC } from "react";
+import { NavLink } from "react-router-dom";
 import { Register } from "~features/register";
 import { routes } from "~shared/lib/routes-names";
 
@@ -30,14 +30,9 @@ const LoginPage: FC = () => {
           Регистрация
         </Typography>
         <Register />
-        <Link
-          href={routes.login}
-          color="#1371FA"
-          variant="body2"
-          className={styles.link}
-        >
+        <NavLink to={routes.login} color="#1371FA" className={styles.link}>
           Войти
-        </Link>
+        </NavLink>
       </Box>
       <Typography component="span" align="center" className={styles.copywrite}>
         &copy; {currentYear}. Все права защищены
