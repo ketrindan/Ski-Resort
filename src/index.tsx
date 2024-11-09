@@ -6,13 +6,17 @@ import App from "./app/App";
 import reportWebVitals from "./reportWebVitals";
 
 async function enableMocking() {
-  if (process.env.NODE_ENV !== "development") {
-    return;
-  }
+  // if (process.env.NODE_ENV !== "development") {
+  //   return;
+  // }
 
   const { worker } = await import("~shared/mocks/browser");
 
-  return worker.start();
+  return worker.start({
+    serviceWorker: {
+      url: "/Ski-Resort/mockServiceWorker.js",
+    },
+  });
 }
 
 const router = createHashRouter([
