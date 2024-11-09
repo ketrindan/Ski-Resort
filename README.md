@@ -2,6 +2,7 @@
 🛠️ ***В процессе разработки***
 
 ![image](https://raw.githubusercontent.com/ketrindan/Ski-Resort/main/src/images/image.png)
+
 ![image](https://raw.githubusercontent.com/ketrindan/Ski-Resort/main/src/images/image2.png)
 
 ## **Описание**
