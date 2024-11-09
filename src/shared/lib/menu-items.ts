@@ -1,11 +1,11 @@
-import { openDeleteGuestPopup, openDeleteCoachPopup, openDeleteSkiPassPopup, openEditGuestPopup, openEditCoachPopup, openEditSkiPassPopup } from "~features/popup/popupSlice";
+import { openDeleteGuestPopup, openDeleteCoachPopup, openDeleteSkiPassPopup, openEditGuestPopup, openEditCoachPopup, openEditSkiPassPopup, openAssignCoachToGuestPopup, openAssignGuestToCoachPopup, openAssignGuestToSkiPassPopup } from "~features/popup/popupSlice";
 import { CardMenuItem } from "~shared/menu/api";
 
 export const guestMenuItems: CardMenuItem[] = [
   {
     id: "0",
     text: "Назначить тренера",
-    callback: openDeleteGuestPopup(),
+    callback: openAssignCoachToGuestPopup(),
   },
   {
     id: "1",
@@ -23,7 +23,7 @@ export const coachMenuItems: CardMenuItem[] = [
   {
     id: "0",
     text: "Назначить посетителя",
-    callback: openDeleteCoachPopup(),
+    callback: openAssignGuestToCoachPopup(),
   },
   {
     id: "1",
@@ -41,7 +41,7 @@ export const skipassMenuItems: CardMenuItem[] = [
   {
     id: "0",
     text: "Назначить посетителя",
-    callback: openDeleteSkiPassPopup(),
+    callback: openAssignGuestToSkiPassPopup(),
   },
   {
     id: "1",

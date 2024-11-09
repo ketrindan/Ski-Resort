@@ -8,7 +8,8 @@ import {
   closeEditSkiPassPopup,
   openConfirmSkiPassPopup,
 } from "~features/popup/popupSlice";
-import { editGuest } from "~entities/guest/guestSlice";
+import { updateGuestToCoach } from "~entities/coach/coachSlice";
+import { editGuest, TGuest } from "~entities/guest/guestSlice";
 import { Skipass } from "~entities/skipass";
 import { editSkipass, setChosenSkipass } from "~entities/skipass/skipassSlice";
 import { AvatarItem } from "~shared/avatar-item";
@@ -68,19 +69,36 @@ export const EditSkiPass: FC = () => {
 
   const { handleSubmit, formState } = methods;
 
+  const updateGuest = (guest: TGuest, startDate: string, endDate: string) => {
+    return dispatch(
+      editGuest({
+        guestId: guest.id as string,
+        data: {
+          ...guest,
+          skiPassCost: skipass.cost,
+          skiPassDuration: `${startDate}-${endDate}`,
+        },
+      }),
+    )
+      .unwrap()
+      .then((guest) => {
+        guest.coachId &&
+          dispatch(
+            updateGuestToCoach({
+              guestId: guest.id,
+              coachId: guest.coachId,
+            }),
+          );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const updateGuests = (startDate: string, endDate: string) => {
     if (skipass.agents.length > 0) {
       skipass.agents.forEach((guest) => {
-        return dispatch(
-          editGuest({
-            guestId: guest.id as string,
-            data: {
-              ...guest,
-              skiPassCost: skipass.cost,
-              skiPassDuration: `${startDate}-${endDate}`,
-            },
-          }),
-        );
+        return updateGuest(guest, startDate, endDate);
       });
     }
   };

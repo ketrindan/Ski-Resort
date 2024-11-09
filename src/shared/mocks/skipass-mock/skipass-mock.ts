@@ -18,6 +18,15 @@ export const skipasses: Skipass[] = [
         skiPassCost: 3150,
         skiPassDuration: "01.01.2025 8:30 - 01.01.2025 16:00",
       },
+      {
+        birthDate: "01.01.1992",
+        id: "2",
+        name: "Борис",
+        surname: "Годунов",
+        skiPassId: "1",
+        skiPassCost: 3150,
+        skiPassDuration: "Дневной 8:30-16:00",
+      },
     ],
   },
   {

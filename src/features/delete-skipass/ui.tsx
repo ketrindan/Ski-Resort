@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
-import { closeDeleteSkipassPopup } from "~features/popup/popupSlice";
-import { removeSkipassFromGuest } from "~entities/guest/guestSlice";
+import { closeDeleteSkiPassPopup } from "~features/popup/popupSlice";
+import { updateGuestToCoach } from "~entities/coach/coachSlice";
+import { removeSkipassFromGuest, TGuest } from "~entities/guest/guestSlice";
 import {
   clearChosenSkipass,
   deleteSkipass,
@@ -15,10 +16,18 @@ export const DeleteSkipass: FC = () => {
 
   const dispatch = useAppDispatch();
 
+  const updateGuest = (guest: TGuest) => {
+    dispatch(removeSkipassFromGuest({ guestId: guest.id }));
+    guest.coachId &&
+      dispatch(
+        updateGuestToCoach({ guestId: guest.id, coachId: guest.coachId }),
+      );
+  };
+
   const onDeleteClick = (id: string) => {
     if (skipass && skipass.agents.length > 0) {
       skipass.agents.forEach((guest) => {
-        return dispatch(removeSkipassFromGuest({ guestId: guest.id }));
+        return updateGuest(guest);
       });
     }
 
@@ -35,7 +44,7 @@ export const DeleteSkipass: FC = () => {
             btnText="Ок"
             onClick={() => {
               skipass.id && onDeleteClick(skipass.id);
-              dispatch(closeDeleteSkipassPopup());
+              dispatch(closeDeleteSkiPassPopup());
               dispatch(clearChosenSkipass());
             }}
             type="button"

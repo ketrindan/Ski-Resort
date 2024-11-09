@@ -82,7 +82,6 @@ export class mockManager {
       guest.skiPassId = skipass.id;
       guest.skiPassCost = skipass.cost;
       guest.skiPassDuration = skipass.duration;
-      skipass.agents.push(guest);
     }
 
     return guest;
@@ -93,10 +92,10 @@ export class mockManager {
     const coach = this.coaches.find((coach) => coach.id === coachId);
 
     if (guest && coach) {
+      guest.coachId = coach.id;
       guest.coachNameSurname = `${coach?.name} ${coach?.surname}`;
       guest.coachCategory = coach?.category;
       guest.coachSex = coach?.sex;
-      coach.guests.push(guest);
     }
 
     return guest;

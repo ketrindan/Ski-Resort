@@ -15,7 +15,7 @@ interface popupState {
   isDeleteCoachPopupOpen: boolean;
   isDeleteSkiPassPopupOpen: boolean;
   isErrorPopupOpen: boolean;
-  isAssignCoachPopupOpen: boolean;
+  isAssignCoachToGuestPopupOpen: boolean;
   isAssignGuestToCoachPopupOpen: boolean;
   isAssignGuestToSkipassPopupOpen: boolean;
 }
@@ -35,7 +35,7 @@ const initialState: popupState = {
   isDeleteCoachPopupOpen: false,
   isDeleteSkiPassPopupOpen: false,
   isErrorPopupOpen: false,
-  isAssignCoachPopupOpen: false,
+  isAssignCoachToGuestPopupOpen: false,
   isAssignGuestToCoachPopupOpen: false,
   isAssignGuestToSkipassPopupOpen: false,
 };
@@ -119,7 +119,7 @@ const popupSlice = createSlice({
     openDeleteSkiPassPopup: (state) => {
       state.isDeleteSkiPassPopupOpen = true;
     },
-    closeDeleteSkipassPopup: (state) => {
+    closeDeleteSkiPassPopup: (state) => {
       state.isDeleteSkiPassPopupOpen = false;
     },
     openErrorPopup: (state) => {
@@ -128,22 +128,22 @@ const popupSlice = createSlice({
     closeErrorPopup: (state) => {
       state.isErrorPopupOpen = false;
     },
-    openAssignCoachPopupOpen: (state) => {
-      state.isAssignCoachPopupOpen = true;
+    openAssignCoachToGuestPopup: (state) => {
+      state.isAssignCoachToGuestPopupOpen = true;
     },
-    closeAssignCoachPopupOpen: (state) => {
-      state.isAssignCoachPopupOpen = false;
+    closeAssignCoachToGuestPopup: (state) => {
+      state.isAssignCoachToGuestPopupOpen = false;
     },
-    openAssignGuestToCoachPopupOpen: (state) => {
+    openAssignGuestToCoachPopup: (state) => {
       state.isAssignGuestToCoachPopupOpen = true;
     },
-    closeAssignGuestToCoachPopupOpen: (state) => {
+    closeAssignGuestToCoachPopup: (state) => {
       state.isAssignGuestToCoachPopupOpen = false;
     },
-    openAssignGuestToSkipassPopupOpen: (state) => {
+    openAssignGuestToSkiPassPopup: (state) => {
       state.isAssignGuestToSkipassPopupOpen = true;
     },
-    closeAssignGuestToSkipassPopupOpen: (state) => {
+    closeAssignGuestToSkiPassPopup: (state) => {
       state.isAssignGuestToSkipassPopupOpen = false;
     },
   },
@@ -175,15 +175,15 @@ export const {
   openDeleteCoachPopup,
   closeDeleteCoachPopup,
   openDeleteSkiPassPopup,
-  closeDeleteSkipassPopup,
+  closeDeleteSkiPassPopup,
   openErrorPopup,
   closeErrorPopup,
-  openAssignCoachPopupOpen,
-  closeAssignCoachPopupOpen,
-  openAssignGuestToCoachPopupOpen,
-  closeAssignGuestToCoachPopupOpen,
-  openAssignGuestToSkipassPopupOpen,
-  closeAssignGuestToSkipassPopupOpen,
+  openAssignCoachToGuestPopup,
+  closeAssignCoachToGuestPopup,
+  openAssignGuestToCoachPopup,
+  closeAssignGuestToCoachPopup,
+  openAssignGuestToSkiPassPopup,
+  closeAssignGuestToSkiPassPopup,
 } = popupSlice.actions;
 
 export default popupSlice.reducer;

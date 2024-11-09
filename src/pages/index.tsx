@@ -4,6 +4,9 @@ import { AddCoachPopup } from "~widgets/addCoach-popup";
 import { AddGuestPopup } from "~widgets/addGuest-popup";
 import { AddSkiPassPopup } from "~widgets/addSkiPass-popup";
 import { AdminPopup } from "~widgets/admin-popup";
+import { AssignCoachToGuestPopup } from "~widgets/assignCoachToGuest-popup";
+import { AssignGuestToCoachPopup } from "~widgets/assignGuestToCoach-popup";
+import { AssignGuestToSkiPassPopup } from "~widgets/assignGuestToSkipass-popup";
 import { ConfirmCoachPopup } from "~widgets/confirmCoach-popup";
 import { ConfirmGuestPopup } from "~widgets/confirmGuest-popup";
 import { ConfirmSkipassPopup } from "~widgets/confirmSkipass-popup";
@@ -53,6 +56,9 @@ export const Routing = () => {
       <EditGuestPopup />
       <EditCoachPopup />
       <EditSkiPassPopup />
+      <AssignCoachToGuestPopup />
+      <AssignGuestToCoachPopup />
+      <AssignGuestToSkiPassPopup />
       <ConfirmGuestPopup />
       <ConfirmCoachPopup />
       <ConfirmSkipassPopup />

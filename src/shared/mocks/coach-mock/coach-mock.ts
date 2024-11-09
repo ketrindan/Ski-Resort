@@ -33,6 +33,15 @@ export const coaches: TCoach[] = [
         skiPassCost: 3150,
         skiPassDuration: "Дневной 8:30-16:00",
       },
+      {
+        birthDate: "01.01.1998",
+        id: "3",
+        name: "Анна",
+        surname: "Каренина",
+        coachId: "2",
+        coachNameSurname: "Борис Сидоров",
+        coachCategory: "Лыжи. Опыт 5 лет.",
+      },
     ],
   },
   {

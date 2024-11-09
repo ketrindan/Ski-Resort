@@ -9,7 +9,8 @@ import {
   openConfirmCoachPopup,
 } from "~features/popup/popupSlice";
 import { editCoach, setChosenCoach, TCoach } from "~entities/coach/coachSlice";
-import { editGuest } from "~entities/guest/guestSlice";
+import { editGuest, TGuest } from "~entities/guest/guestSlice";
+import { updateGuestToSkipass } from "~entities/skipass/skipassSlice";
 import { DateInput } from "~shared/date-input";
 import { FormBox } from "~shared/form-box";
 import { ImageInput } from "~shared/image-input";
@@ -59,20 +60,37 @@ export const EditCoach: FC = () => {
 
   const { handleSubmit, formState } = methods;
 
+  const updateGuest = (guest: TGuest) => {
+    return dispatch(
+      editGuest({
+        guestId: guest.id as string,
+        data: {
+          ...guest,
+          coachNameSurname: `${coach?.name} ${coach?.surname}`,
+          coachSex: coach.sex,
+          coachCategory: coach.category,
+        },
+      }),
+    )
+      .unwrap()
+      .then((guest) => {
+        guest.skiPassId &&
+          dispatch(
+            updateGuestToSkipass({
+              guestId: guest.id,
+              skipassId: guest.skiPassId,
+            }),
+          );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const updateGuests = () => {
     if (coach.guests.length > 0) {
       coach.guests.forEach((guest) => {
-        return dispatch(
-          editGuest({
-            guestId: guest.id as string,
-            data: {
-              ...guest,
-              coachNameSurname: `${coach?.name} ${coach?.surname}`,
-              coachSex: coach.sex,
-              coachCategory: coach.category,
-            },
-          }),
-        );
+        return updateGuest(guest);
       });
     }
   };
