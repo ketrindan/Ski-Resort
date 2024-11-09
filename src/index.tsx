@@ -14,7 +14,7 @@ async function enableMocking() {
 
   return worker.start({
     serviceWorker: {
-      url: "/Ski-Resort/mockServiceWorker.js",
+      url: "https://ketrindan.github.io/Ski-Resort/mockServiceWorker.js",
     },
   });
 }
