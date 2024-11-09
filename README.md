@@ -6,7 +6,7 @@
 ![image](https://raw.githubusercontent.com/ketrindan/Ski-Resort/main/src/images/image2.png)
 
 ## **Описание**
-Сервис *Ski-Resort* - сайт горнолыжного курорта, тренировочный проект на React + Redux-toolkit
+Сервис *Ski-Resort* - сайт горнолыжного курорта, тренировочный проект на React + Redux-toolkit (только декстоп-версия)
 
 ### **Функционал**
 * Регистрация и авторизация пользователя

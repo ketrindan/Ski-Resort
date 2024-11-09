@@ -4,6 +4,7 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { FC } from "react";
+import { NavLink } from "react-router-dom";
 import { Login } from "~features/login";
 import { routes } from "~shared/lib/routes-names";
 
@@ -47,14 +48,9 @@ const LoginPage: FC = () => {
             <img src={vk} alt="vk" />
           </Link>
         </Box>
-        <Link
-          href={routes.register}
-          color="#1371FA"
-          variant="body2"
-          className={styles.link}
-        >
+        <NavLink to={routes.register} color="#1371FA" className={styles.link}>
           Зарегистрироваться
-        </Link>
+        </NavLink>
       </Box>
       <Typography component="span" align="center" className={styles.copywrite}>
         &copy; {currentYear}. Все права защищены
