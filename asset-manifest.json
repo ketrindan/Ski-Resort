@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Ski-Resort/static/css/main.40a80585.css",
-    "main.js": "/Ski-Resort/static/js/main.36e346f2.js",
+    "main.js": "/Ski-Resort/static/js/main.fc09def1.js",
     "static/js/502.7a904d69.chunk.js": "/Ski-Resort/static/js/502.7a904d69.chunk.js",
     "static/css/132.dd42ddf5.chunk.css": "/Ski-Resort/static/css/132.dd42ddf5.chunk.css",
     "static/js/132.f8c92cff.chunk.js": "/Ski-Resort/static/js/132.f8c92cff.chunk.js",
@@ -89,7 +89,7 @@
     "static/media/vk.svg": "/Ski-Resort/static/media/vk.f8eaf13b651e9dd7e1721620f1c5e884.svg",
     "static/media/google.svg": "/Ski-Resort/static/media/google.176179886f168bfcdbb07d49d9e66736.svg",
     "main.40a80585.css.map": "/Ski-Resort/static/css/main.40a80585.css.map",
-    "main.36e346f2.js.map": "/Ski-Resort/static/js/main.36e346f2.js.map",
+    "main.fc09def1.js.map": "/Ski-Resort/static/js/main.fc09def1.js.map",
     "502.7a904d69.chunk.js.map": "/Ski-Resort/static/js/502.7a904d69.chunk.js.map",
     "132.dd42ddf5.chunk.css.map": "/Ski-Resort/static/css/132.dd42ddf5.chunk.css.map",
     "132.f8c92cff.chunk.js.map": "/Ski-Resort/static/js/132.f8c92cff.chunk.js.map",
@@ -110,6 +110,6 @@
   },
   "entrypoints": [
     "static/css/main.40a80585.css",
-    "static/js/main.36e346f2.js"
+    "static/js/main.fc09def1.js"
   ]
 }
