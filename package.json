@@ -1,7 +1,7 @@
 {
   "name": "frontend-danilenko-ekaterina",
   "version": "0.1.0",
-  "homepage": "./",
+  "homepage": "https://ketrindan.github.io/Ski-Resort/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
