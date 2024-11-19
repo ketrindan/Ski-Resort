@@ -48,7 +48,7 @@ const ListContainer: FC<IContainerListProps> = ({
 
   if (main) {
     return (
-      <Accordion className={styles.list_container}>
+      <Accordion className={styles.list_container} defaultExpanded>
         <AccordionSummary
           className={(styles.list_header, styles.list_header_main)}
           expandIcon={<ExpandMoreIcon className={styles.less_icon} />}

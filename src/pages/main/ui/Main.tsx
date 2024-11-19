@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "~app/store/hooks";
 import { ListContainer } from "~widgets/list-container";
 import { Navbar } from "~widgets/navbar";
@@ -40,6 +40,18 @@ const MainPage = () => {
 
   const dispatch = useAppDispatch();
 
+  const addGuest = useCallback(() => {
+    dispatch(openAddGuestPopup());
+  }, [dispatch]);
+
+  const addCoach = useCallback(() => {
+    dispatch(openAddCoachPopup());
+  }, [dispatch]);
+
+  const addSkipass = useCallback(() => {
+    dispatch(openAddSkiPassPopup());
+  }, [dispatch]);
+
   useEffect(() => {
     dispatch(fetchGuests({ page: 0, size: personItemsNumber }));
     dispatch(fetchCoaches({ page: 0, size: personItemsNumber }));
@@ -55,7 +67,7 @@ const MainPage = () => {
           actionButton={
             <AddButton
               btnText="Добавить нового"
-              handleClick={() => dispatch(openAddGuestPopup())}
+              handleClick={() => addGuest()}
             />
           }
           main
@@ -80,7 +92,7 @@ const MainPage = () => {
           actionButton={
             <AddButton
               btnText="Добавить нового"
-              handleClick={() => dispatch(openAddCoachPopup())}
+              handleClick={() => addCoach()}
             />
           }
           main
@@ -104,7 +116,7 @@ const MainPage = () => {
           actionButton={
             <AddButton
               btnText="Добавить новый"
-              handleClick={() => dispatch(openAddSkiPassPopup())}
+              handleClick={() => addSkipass()}
             />
           }
           main
